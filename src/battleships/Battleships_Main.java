@@ -14,6 +14,7 @@ public class Battleships_Main extends Application {
 
 	Button b[][] = new Button[10][10];
 	GridPane grid = new GridPane();
+	private int turnCounter = 0;
 
 	public void buildGrid() {
 
@@ -32,7 +33,7 @@ public class Battleships_Main extends Application {
 	public int computerSelectionX() {
 
 		Random r = new Random();
-		int a = r.nextInt(9) + 1;
+		int a = r.nextInt(9) + 0;
 
 		return a;
 
@@ -41,7 +42,7 @@ public class Battleships_Main extends Application {
 	public int computerSelectionY() {
 
 		Random r = new Random();
-		int b = r.nextInt(9) + 1;
+		int b = r.nextInt(9) + 0;
 
 		return b;
 
@@ -50,12 +51,13 @@ public class Battleships_Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		int turnCounter = 0;
-		int selectionCounter = 0;
 		buildGrid();
 
+		// Get computer to choose coordinates for its boats
+		Patrol_Boat patrolBoat = new Patrol_Boat();
+		int pb = patrolBoat.getLength();
+
 		// Create new instance of each object, with parameters as chosen coordinates
-		Patrol_Boat patrolBoard = new Patrol_Boat(3, 3, 3, 3);
 
 		// Make buttons clickable, record coordinates for initial selection
 		for (int i = 0; i < 10; i++) {
@@ -75,16 +77,16 @@ public class Battleships_Main extends Application {
 							System.out.println("Battleship selection complete");
 
 							// Computer's selection
-							int a = computerSelectionX();
-							int b = computerSelectionY();
-							int c = a + 1;
-							int d = b + 1;
-							b[x][y].setText(a, b);
-							b[x][y].setText(c, d);
+							int l = computerSelectionX();
+							int m = computerSelectionY();
+							int n = m + 1;
+							int o = n + 1;
+							b[l][m].setText("X");
+							b[n][o].setText("X");
 							turnCounter++;
 						}
 
-						if (turnCounter == 1) {
+						if (turnCounter == 2) {
 
 							System.out.println("Select a coordinate to shoot");
 							b[x][y].setText("*");
