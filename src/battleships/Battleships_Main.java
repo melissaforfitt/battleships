@@ -16,6 +16,12 @@ public class Battleships_Main extends Application {
 	GridPane grid = new GridPane();
 	private int turnCounter = 0;
 
+	// Create instances of ships
+	Ship aircraftCarrier = new Ship("Aircraft Carrier", 5);
+	Ship battleship = new Ship("Battleship", 4);
+	Ship destroyer = new Ship("Destroyer", 3);
+	Ship patrolBoat = new Ship("Patrol Boat", 2);
+
 	public void buildGrid() {
 
 		// Make a grid of 10 x 10 buttons
@@ -25,7 +31,6 @@ public class Battleships_Main extends Application {
 				b[i][j].setMinWidth(50);
 				b[i][j].setMinHeight(50);
 				grid.add(b[i][j], i, j);
-
 			}
 		}
 	}
@@ -54,10 +59,12 @@ public class Battleships_Main extends Application {
 		buildGrid();
 
 		// Get computer to choose coordinates for its boats
-		Patrol_Boat patrolBoat = new Patrol_Boat();
-		int pb = patrolBoat.getLength();
+		for (int p = 0; p < patrolBoat.getLength(); p++) {
 
-		// Create new instance of each object, with parameters as chosen coordinates
+			int x = computerSelectionX();
+			int y = computerSelectionY();
+
+		}
 
 		// Make buttons clickable, record coordinates for initial selection
 		for (int i = 0; i < 10; i++) {
