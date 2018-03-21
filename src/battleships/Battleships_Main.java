@@ -30,6 +30,7 @@ public class Battleships_Main extends Application {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				b[i][j] = new Button();
+				b[i][j].setId("grid-buttons");
 				b[i][j].setMinWidth(50);
 				b[i][j].setMinHeight(50);
 				grid.add(b[i][j], i, j);
@@ -83,7 +84,6 @@ public class Battleships_Main extends Application {
 							userChosen[x][y] = true;
 							b[x][y + 1].setText("X");
 							userChosen[x][y + 1] = true;
-							// System.out.println(userChosen[9][7]);
 							turnCounter++;
 						}
 						// Computer's boat selection
@@ -94,7 +94,6 @@ public class Battleships_Main extends Application {
 							computerChosen[l][m] = true;
 							b[l + 1][m].setText("X");
 							computerChosen[l + 1][m] = true;
-							// System.out.println(computerChosen[0][4]);
 						}
 						// User's turn to shoot
 						if (turnCounter % 2 == 0) {
@@ -126,7 +125,7 @@ public class Battleships_Main extends Application {
 
 		// Create scene
 		Scene scene = new Scene(grid, 500, 500);
-
+		scene.getStylesheets().add(this.getClass().getResource("Design.css").toExternalForm());
 		primaryStage.setTitle("Battleships");
 		primaryStage.setScene(scene);
 		primaryStage.show();
