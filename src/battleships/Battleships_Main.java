@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 public class Battleships_Main extends Application {
 
 	Button b[][] = new Button[10][10];
+	boolean chosen[][] = new boolean[10][10];
 	GridPane grid = new GridPane();
 	private int turnCounter = 0;
 
@@ -77,28 +78,32 @@ public class Battleships_Main extends Application {
 
 						if (turnCounter == 0) {
 							// User's selection
-							for (int c = 0; c < 2; c++) {
-								System.out.println("Select coordinates for Patrol Boat");
-								b[x][y].setText("X");
-							}
+							System.out.println("Select coordinates for Patrol Boat");
+							b[x][y].setText("X");
+							b[x][y + 1].setText("X");
+							turnCounter++;
 							System.out.println("Battleship selection complete");
-
-							// Computer's selection
+						}
+						// Computer's boat selection
+						if (turnCounter == 1) {
 							int l = computerSelectionX();
 							int m = computerSelectionY();
-							int n = m + 1;
-							int o = n + 1;
 							b[l][m].setText("X");
-							b[n][o].setText("X");
-							turnCounter++;
+							b[l + 1][m].setText("X");
 						}
-
-						if (turnCounter == 2) {
-
+						// User's turn to shoot
+						if (turnCounter % 2 == 0) {
 							System.out.println("Select a coordinate to shoot");
 							b[x][y].setText("*");
-
+							turnCounter++;
 						}
+						// Computer's turn to shoot
+						if (turnCounter != 1 && turnCounter % 2 != 0) {
+							int l = computerSelectionX();
+							int m = computerSelectionY();
+							b[l][m].setText("*");
+						}
+						turnCounter++;
 					}
 				});
 			}
