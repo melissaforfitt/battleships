@@ -17,6 +17,9 @@ public class Battleships_Main extends Application {
 	boolean computerChosen[][] = new boolean[10][10];
 	GridPane grid = new GridPane();
 	private int turnCounter = 0;
+	private String currentPlayer = "";
+	private String user = "User";
+	private String computer = "Computer";
 
 	// Create instances of ships
 	Ship aircraftCarrier = new Ship("Aircraft Carrier", 5);
@@ -61,14 +64,6 @@ public class Battleships_Main extends Application {
 
 		buildGrid();
 
-		// Get computer to choose coordinates for its boats
-		for (int p = 0; p < patrolBoat.getLength(); p++) {
-
-			int x = computerSelectionX();
-			int y = computerSelectionY();
-
-		}
-
 		// Make buttons clickable, record coordinates for initial selection
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
@@ -97,11 +92,13 @@ public class Battleships_Main extends Application {
 						}
 						// User's turn to shoot
 						if (turnCounter % 2 == 0) {
+							currentPlayer = user;
 							System.out.println("Select a coordinate to shoot");
 							b[x][y].setText("*");
 							if (computerChosen[x][y] == true) {
 								System.out.println("Well done, you shot the boat");
 								b[x][y].setId("button-hit");
+								patrolBoat.lives = patrolBoat.lives - 1;
 							} else {
 								System.out.println("That was a miss");
 								b[x][y].setId("button-miss");
@@ -110,17 +107,26 @@ public class Battleships_Main extends Application {
 						}
 						// Computer's turn to shoot
 						if (turnCounter != 1 && turnCounter % 2 != 0) {
+							currentPlayer = computer;
 							int l = computerSelectionX();
 							int m = computerSelectionY();
 							b[l][m].setText("*");
 							if (userChosen[l][m] == true) {
 								System.out.println("The computer shot your boat");
 								b[l][m].setId("button-hit");
+								patrolBoat.lives = patrolBoat.lives - 1;
 							} else {
 								System.out.println("The computer missed your boat");
 								b[l][m].setId("button-miss");
 							}
 						}
+
+						// Check conditions for winning
+						if (patrolBoat.getLives() == 0) {
+							System.out.println("Game over, " + currentPlayer + " wins the game");
+						}
+
+						// Increment turn
 						turnCounter++;
 					}
 				});
