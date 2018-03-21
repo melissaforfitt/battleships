@@ -1,7 +1,7 @@
 package battleships;
 
 import java.util.Random;
-
+import java.util.Scanner;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,9 +12,6 @@ import javafx.stage.Stage;
 
 public class Battleships_Main extends Application {
 
-	Button b[][] = new Button[10][10];
-	boolean userChosen[][] = new boolean[10][10];
-	boolean computerChosen[][] = new boolean[10][10];
 	GridPane grid = new GridPane();
 	private int turnCounter = 0;
 	private String currentPlayer = "";
@@ -27,11 +24,13 @@ public class Battleships_Main extends Application {
 	Ship destroyer = new Ship("Destroyer", 3);
 	Ship patrolBoat = new Ship("Patrol Boat", 2);
 
-	public void buildGrid() {
+	public void buildGrid(int gridSize) {
 
-		// Make a grid of 10 x 10 buttons
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		Button b[][] = new Button[gridSize][gridSize];
+
+		// Make a grid of buttons according to amount defined by user
+		for (int i = 0; i < gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
 				b[i][j] = new Button();
 				b[i][j].setId("grid-buttons");
 				b[i][j].setMinWidth(50);
@@ -62,14 +61,23 @@ public class Battleships_Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		buildGrid();
+		System.out.println("What size grid would you like?");
+		Scanner scan = new Scanner(System.in);
+		int gridSize = scan.nextInt();
+
+		Button b[][] = new Button[gridSize][gridSize];
+
+		boolean userChosen[][] = new boolean[gridSize][gridSize];
+		boolean computerChosen[][] = new boolean[gridSize][gridSize];
+
+		buildGrid(gridSize);
 
 		// Make buttons clickable, record coordinates for initial selection
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
 				int x = i;
 				int y = j;
-
+				b[i][j] = new Button();
 				b[i][j].setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 
@@ -134,7 +142,7 @@ public class Battleships_Main extends Application {
 		}
 
 		// Create scene
-		Scene scene = new Scene(grid, 500, 500);
+		Scene scene = new Scene(grid, 50 * gridSize, 50 * gridSize);
 		scene.getStylesheets().add(this.getClass().getResource("Design.css").toExternalForm());
 		primaryStage.setTitle("Battleships");
 		primaryStage.setScene(scene);
