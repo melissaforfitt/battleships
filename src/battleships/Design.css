@@ -1,15 +1,33 @@
 #grid-buttons {
 	
-	-fx-effect: dropshadow(gaussian, red, 10, 0.5, 0, 0);
-	-fx-background-color: #f0ff35;
-	-fx-background-radius: 30;
-	-fx-font-size: 16;
+	-fx-effect: dropshadow(gaussian, darkblue, 8.0, 0.2, 0.0, 0.0);
+	-fx-background-color: #ccffff;
+	-fx-font-size: 20.0;
+	-fx-font-weight: bold;
+	
+}
+
+#button-hit {
+	
+	-fx-effect: dropshadow(gaussian, darkblue, 8.0, 0.2, 0.0, 0.0);
+	-fx-background-color: #ff3333;
+	-fx-font-size: 20.0;
+	-fx-font-weight: bold;
+	
+}
+
+#button-miss {
+	
+	-fx-effect: dropshadow(gaussian, darkblue, 8.0, 0.2, 0.0, 0.0);
+	-fx-background-color: #ffffff;
+	-fx-font-size: 20.0;
+	-fx-font-weight: bold;
 	
 }
 
 .gridpane {
 
-	-fx-hgap: 16;
-	-fx-vgap: 16;
+	-fx-hgap: 16.0;
+	-fx-vgap: 16.0;
 
 }

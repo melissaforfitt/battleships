@@ -101,8 +101,10 @@ public class Battleships_Main extends Application {
 							b[x][y].setText("*");
 							if (computerChosen[x][y] == true) {
 								System.out.println("Well done, you shot the boat");
+								b[x][y].setId("button-hit");
 							} else {
 								System.out.println("That was a miss");
+								b[x][y].setId("button-miss");
 							}
 							turnCounter++;
 						}
@@ -113,8 +115,10 @@ public class Battleships_Main extends Application {
 							b[l][m].setText("*");
 							if (userChosen[l][m] == true) {
 								System.out.println("The computer shot your boat");
+								b[l][m].setId("button-hit");
 							} else {
 								System.out.println("The computer missed your boat");
+								b[l][m].setId("button-miss");
 							}
 						}
 						turnCounter++;
