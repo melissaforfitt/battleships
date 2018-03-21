@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 public class Battleships_Main extends Application {
 
 	Button b[][] = new Button[10][10];
-	boolean chosen[][] = new boolean[10][10];
+	boolean userChosen[][] = new boolean[10][10];
+	boolean computerChosen[][] = new boolean[10][10];
 	GridPane grid = new GridPane();
 	private int turnCounter = 0;
 
@@ -78,23 +79,32 @@ public class Battleships_Main extends Application {
 
 						if (turnCounter == 0) {
 							// User's selection
-							System.out.println("Select coordinates for Patrol Boat");
 							b[x][y].setText("X");
+							userChosen[x][y] = true;
 							b[x][y + 1].setText("X");
+							userChosen[x][y + 1] = true;
+							// System.out.println(userChosen[9][7]);
 							turnCounter++;
-							System.out.println("Battleship selection complete");
 						}
 						// Computer's boat selection
 						if (turnCounter == 1) {
 							int l = computerSelectionX();
 							int m = computerSelectionY();
 							b[l][m].setText("X");
+							computerChosen[l][m] = true;
 							b[l + 1][m].setText("X");
+							computerChosen[l + 1][m] = true;
+							// System.out.println(computerChosen[0][4]);
 						}
 						// User's turn to shoot
 						if (turnCounter % 2 == 0) {
 							System.out.println("Select a coordinate to shoot");
 							b[x][y].setText("*");
+							if (computerChosen[x][y] == true) {
+								System.out.println("Well done, you shot the boat");
+							} else {
+								System.out.println("That was a miss");
+							}
 							turnCounter++;
 						}
 						// Computer's turn to shoot
@@ -102,6 +112,11 @@ public class Battleships_Main extends Application {
 							int l = computerSelectionX();
 							int m = computerSelectionY();
 							b[l][m].setText("*");
+							if (userChosen[l][m] == true) {
+								System.out.println("The computer shot your boat");
+							} else {
+								System.out.println("The computer missed your boat");
+							}
 						}
 						turnCounter++;
 					}
