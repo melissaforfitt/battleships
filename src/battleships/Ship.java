@@ -6,7 +6,7 @@ public class Ship {
 	public int length;
 	public int lives = length;
 
-	public Ship(String name, int length) {
+	public Ship(String name, int length, int amount) {
 
 		this.name = name;
 		this.length = length;

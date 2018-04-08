@@ -22,12 +22,16 @@ public class Battleships_Main extends Application {
 	private Button b[][];
 	private boolean userChosen[][];
 	private boolean computerChosen[][];
+	private int aircraftCarrierAmount;
+	private int battleshipAmount;
+	private int destroyerAmount;
+	private int patrolBoatAmount;
 
 	// Create instances of ships
-	Ship aircraftCarrier = new Ship("Aircraft Carrier", 5);
-	Ship battleship = new Ship("Battleship", 4);
-	Ship destroyer = new Ship("Destroyer", 3);
-	Ship patrolBoat = new Ship("Patrol Boat", 2);
+	Ship aircraftCarrier = new Ship("Aircraft Carrier", 5, aircraftCarrierAmount);
+	Ship battleship = new Ship("Battleship", 4, battleshipAmount);
+	Ship destroyer = new Ship("Destroyer", 3, destroyerAmount);
+	Ship patrolBoat = new Ship("Patrol Boat", 2, patrolBoatAmount);
 
 	public int computerSelectionX() {
 
@@ -48,6 +52,7 @@ public class Battleships_Main extends Application {
 	}
 
 	public void gamePlay(int gridSize) {
+
 		// Make buttons clickable, record coordinates for initial selection
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
@@ -65,8 +70,6 @@ public class Battleships_Main extends Application {
 							// User's selection
 							b[x][y].setText("X");
 							userChosen[x][y] = true;
-							b[x][y + 1].setText("X");
-							userChosen[x][y + 1] = true;
 							turnCounter++;
 						}
 						// Computer's boat selection
@@ -75,8 +78,6 @@ public class Battleships_Main extends Application {
 							int m = computerSelectionY();
 							b[l][m].setText("X");
 							computerChosen[l][m] = true;
-							b[l + 1][m].setText("X");
-							computerChosen[l + 1][m] = true;
 						}
 						// User's turn to shoot
 						if (turnCounter % 2 == 0) {
@@ -128,14 +129,22 @@ public class Battleships_Main extends Application {
 		System.out.println("What size grid would you like?");
 		Scanner scan = new Scanner(System.in);
 		gridSize = scan.nextInt();
+		System.out.println("How many Aircraft Carriers would you like?");
+		aircraftCarrierAmount = scan.nextInt();
+		System.out.println("How many Battleships would you like?");
+		battleshipAmount = scan.nextInt();
+		System.out.println("How many Destroyers would you like?");
+		destroyerAmount = scan.nextInt();
+		System.out.println("How many Patrol Boats would you like?");
+		patrolBoatAmount = scan.nextInt();
+
+		scan.close();
 
 		b = new Button[gridSize][gridSize];
 		userChosen = new boolean[gridSize][gridSize];
 		computerChosen = new boolean[gridSize][gridSize];
 
 		gamePlay(gridSize);
-
-		scan.close();
 
 		// Create scene
 		Scene scene = new Scene(grid, 50 * gridSize, 50 * gridSize);
