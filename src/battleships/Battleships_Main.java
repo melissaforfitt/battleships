@@ -18,27 +18,16 @@ public class Battleships_Main extends Application {
 	private String user = "User";
 	private String computer = "Computer";
 
+	private int gridSize;
+	private Button b[][];
+	private boolean userChosen[][];
+	private boolean computerChosen[][];
+
 	// Create instances of ships
 	Ship aircraftCarrier = new Ship("Aircraft Carrier", 5);
 	Ship battleship = new Ship("Battleship", 4);
 	Ship destroyer = new Ship("Destroyer", 3);
 	Ship patrolBoat = new Ship("Patrol Boat", 2);
-
-	public void buildGrid(int gridSize) {
-
-		Button b[][] = new Button[gridSize][gridSize];
-
-		// Make a grid of buttons according to amount defined by user
-		for (int i = 0; i < gridSize; i++) {
-			for (int j = 0; j < gridSize; j++) {
-				b[i][j] = new Button();
-				b[i][j].setId("grid-buttons");
-				b[i][j].setMinWidth(50);
-				b[i][j].setMinHeight(50);
-				grid.add(b[i][j], i, j);
-			}
-		}
-	}
 
 	public int computerSelectionX() {
 
@@ -58,26 +47,17 @@ public class Battleships_Main extends Application {
 
 	}
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-
-		System.out.println("What size grid would you like?");
-		Scanner scan = new Scanner(System.in);
-		int gridSize = scan.nextInt();
-
-		Button b[][] = new Button[gridSize][gridSize];
-
-		boolean userChosen[][] = new boolean[gridSize][gridSize];
-		boolean computerChosen[][] = new boolean[gridSize][gridSize];
-
-		buildGrid(gridSize);
-
+	public void gamePlay(int gridSize) {
 		// Make buttons clickable, record coordinates for initial selection
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				int x = i;
 				int y = j;
 				b[i][j] = new Button();
+				b[i][j].setId("grid-buttons");
+				b[i][j].setMinWidth(50);
+				b[i][j].setMinHeight(50);
+				grid.add(b[i][j], i, j);
 				b[i][j].setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 
@@ -140,6 +120,22 @@ public class Battleships_Main extends Application {
 				});
 			}
 		}
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+
+		System.out.println("What size grid would you like?");
+		Scanner scan = new Scanner(System.in);
+		gridSize = scan.nextInt();
+
+		b = new Button[gridSize][gridSize];
+		userChosen = new boolean[gridSize][gridSize];
+		computerChosen = new boolean[gridSize][gridSize];
+
+		gamePlay(gridSize);
+
+		scan.close();
 
 		// Create scene
 		Scene scene = new Scene(grid, 50 * gridSize, 50 * gridSize);
