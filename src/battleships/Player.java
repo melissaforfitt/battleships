@@ -1,14 +1,45 @@
 package battleships;
 
 public class Player {
-	
-	public void selection() {
-		
+
+	int x;
+	int y;
+	String name;
+	int lives;
+
+	public Player(String name, int lives) {
+
+		this.name = name;
+		this.lives = lives;
+
 	}
-	
-	public void shoot() {
-		
+
+	public String getName() {
+		return name;
 	}
-	
+
+	public void userSelection(int x, int y) {
+
+	}
+
+	public void computerSelection() {
+
+	}
+
+	public boolean shoot(int x, int y) {
+		return false;
+	}
+
+	public int livesRemaining() {
+		return lives;
+	}
+
+	public boolean isHit() {
+		return false;
+	}
+
+	public void loseLife() {
+		lives--;
+	}
 
 }
