@@ -17,8 +17,8 @@ public class Battleships_Main extends Application {
 	private Button b[][];
 
 	// Create instances of classes
-	Player user = new User("User", 1);
-	Player computer = new Computer("Computer", 1);
+	Player user;
+	Player computer;
 	Ship aircraftCarrier = new Ship("Aircraft Carrier", 5);
 	Ship battleship = new Ship("Battleship", 4);
 	Ship destroyer = new Ship("Destroyer", 3);
@@ -93,6 +93,9 @@ public class Battleships_Main extends Application {
 		System.out.println("What size grid would you like?");
 		Scanner scan = new Scanner(System.in);
 		gridSize = scan.nextInt();
+		
+		user = new User("User", 1, gridSize);
+		computer = new Computer("Computer", 1, gridSize);
 
 		scan.close();
 

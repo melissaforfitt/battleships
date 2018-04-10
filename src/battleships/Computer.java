@@ -8,9 +8,10 @@ public class Computer extends Player {
 	private boolean computerChosen[][];
 	private boolean computerShots[][];
 
-	public Computer(String name, int lives) {
-		super(name, lives);
-
+	public Computer(String name, int lives, int gridSize) {
+		super(name, lives, gridSize);
+		computerChosen = new boolean[gridSize][gridSize];
+		computerShots = new boolean[gridSize][gridSize];
 	}
 
 	public int computerSelectionX() {

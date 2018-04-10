@@ -6,8 +6,10 @@ public class User extends Player {
 	private boolean userChosen[][];
 	private boolean userShots[][];
 
-	public User(String name, int lives) {
-		super(name, lives);
+	public User(String name, int lives, int gridSize) {
+		super(name, lives, gridSize);
+		userChosen = new boolean[gridSize][gridSize];
+		userShots = new boolean[gridSize][gridSize];
 	}
 
 	public void userSelection(int x, int y) {

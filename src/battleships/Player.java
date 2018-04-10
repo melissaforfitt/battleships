@@ -7,7 +7,7 @@ public class Player {
 	String name;
 	int lives;
 
-	public Player(String name, int lives) {
+	public Player(String name, int lives, int gridSize) {
 
 		this.name = name;
 		this.lives = lives;
