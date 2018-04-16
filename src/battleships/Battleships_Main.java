@@ -1,5 +1,6 @@
 package battleships;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -61,6 +62,11 @@ public class Battleships_Main extends Application {
 
 							/* Make boat location selections */
 							/* TODO: Create array list of ships */
+							
+							System.out.println("Select location for patrol boat");
+							
+							
+							
 							user.userSelection(i, j);
 							int compX = computerSelectionX();
 							int compY = computerSelectionY();
