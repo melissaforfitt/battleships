@@ -67,10 +67,11 @@ public class Battleships_Main extends Application {
 							computer.computerSelection(compX, compY);
 							b[i][j].setId("button-select");
 							b[compX][compY].setId("button-select");
-
+							turnCounter++;
+							
 						}
 
-						if (turnCounter > 0 && turnCounter % 2 == 0) {
+						if (turnCounter > 0) {
 
 							/* User's turn to shoot */
 							user.shoot(i, j);
@@ -89,34 +90,32 @@ public class Battleships_Main extends Application {
 								b[i][j].setId("button-miss");
 							}
 
-						}
+							Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), delayEvent -> {
 
-						Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), delayEvent -> {
-							// Event here
-							/* Computer's turn to shoot */
-							int shootX = computerSelectionX();
-							int shootY = computerSelectionY();
-							computer.shoot(shootX, shootY);
+								/* Computer's turn to shoot */
+								int shootX = computerSelectionX();
+								int shootY = computerSelectionY();
+								computer.shoot(shootX, shootY);
 
-							if (user.isHit() == true) {
-								System.out.println("Computer hit you.");
-								user.loseLife();
-								b[shootX][shootY].setId("button-hit");
+								if (user.isHit() == true) {
+									System.out.println("Computer hit you.");
+									user.loseLife();
+									b[shootX][shootY].setId("button-hit");
 
-								if (user.livesRemaining() == 0) {
-									System.out.println("Game is over. Computer won!");
+									if (user.livesRemaining() == 0) {
+										System.out.println("Game is over. Computer won!");
+									}
+
+								} else {
+									System.out.println("Computer missed.");
+									b[shootX][shootY].setId("button-miss");
 								}
+							}));
+							tl.play();
 
-							} else {
-								System.out.println("Computer missed.");
-								b[shootX][shootY].setId("button-miss");
-							}
-						}));
-						tl.play();
-
-						turnCounter++;
-						System.out.println(turnCounter);
-
+							turnCounter++;
+							System.out.println(turnCounter);
+						}
 					}
 				});
 			}
