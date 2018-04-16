@@ -1,5 +1,7 @@
 package battleships;
 
+import java.util.Random;
+
 public class Player {
 
 	int x;
@@ -21,8 +23,8 @@ public class Player {
 	public void userSelection(int x, int y) {
 
 	}
-
-	public void computerSelection() {
+	
+	public void computerSelection(int x, int y) {
 
 	}
 

@@ -1,7 +1,5 @@
 package battleships;
 
-import java.util.Random;
-
 public class Computer extends Player {
 
 	private String name = "computer";
@@ -14,32 +12,17 @@ public class Computer extends Player {
 		computerShots = new boolean[gridSize][gridSize];
 	}
 
-	public int computerSelectionX() {
-		Random r = new Random();
-		int a = r.nextInt(9) + 0;
-
-		return a;
-	}
-
-	public int computerSelectionY() {
-		Random r = new Random();
-		int b = r.nextInt(9) + 0;
-
-		return b;
-	}
-
-	public void computerSelection() {
-		x = computerSelectionX();
-		y = computerSelectionY();
-		computerChosen[x][y] = true;
-	}
-
 	public String getName() {
 		return name;
 	}
 
-	public boolean shoot(int x, int y) {
+	public boolean shoot() {
+		computerChosen[x][y] = true;
 		return computerShots[x][y] = true;
+	}
+
+	public void computerSelection(int x, int y) {
+		computerChosen[x][y] = true;
 	}
 
 	public boolean isHit() {

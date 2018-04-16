@@ -1,5 +1,6 @@
 package battleships;
 
+import java.util.Random;
 import java.util.Scanner;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -24,6 +25,20 @@ public class Battleships_Main extends Application {
 	Ship destroyer = new Ship("Destroyer", 3);
 	Ship patrolBoat = new Ship("Patrol Boat", 2);
 
+	public int computerSelectionX() {
+		Random r = new Random();
+		int a = r.nextInt(9) + 0;
+
+		return a;
+	}
+
+	public int computerSelectionY() {
+		Random r = new Random();
+		int b = r.nextInt(9) + 0;
+
+		return b;
+	}
+
 	public void gamePlay(int gridSize) {
 
 		for (int x = 0; x < gridSize; x++) {
@@ -40,13 +55,17 @@ public class Battleships_Main extends Application {
 
 						if (turnCounter == 0) {
 
+							/* TODO: Create array list of ships */
 							user.userSelection(i, j);
-							computer.computerSelection();
+							int compX = computerSelectionX();
+							int compY = computerSelectionY();
+							computer.computerSelection(compX, compY);
 							b[i][j].setId("button-select");
+							b[compX][compY].setId("button-select");
 
 						}
 
-						if (turnCounter % 2 == 0) {
+						if (turnCounter > 0 && turnCounter % 2 == 0) {
 
 							user.shoot(i, j);
 
@@ -58,6 +77,7 @@ public class Battleships_Main extends Application {
 								if (computer.livesRemaining() == 0) {
 									System.out.println("Game is over. You won!");
 								}
+
 							} else {
 								System.out.println("You missed.");
 								b[i][j].setId("button-miss");
@@ -65,26 +85,31 @@ public class Battleships_Main extends Application {
 
 						} else {
 
-							computer.shoot(i, j);
+							int shootX = computerSelectionX();
+							int shootY = computerSelectionY();
+							computer.shoot(shootX, shootY);
 
 							if (user.isHit() == true) {
 								System.out.println("Computer hit you.");
 								user.loseLife();
-								b[i][j].setId("button-hit");
+								b[shootX][shootY].setId("button-hit");
 
 								if (user.livesRemaining() == 0) {
 									System.out.println("Game is over. Computer won!");
 								}
 							} else {
 								System.out.println("Computer missed.");
-								b[i][j].setId("button-miss");
+								b[shootX][shootY].setId("button-miss");
 							}
+							turnCounter++;
+							System.out.println(turnCounter);
 						}
+						turnCounter++;
+						System.out.println(turnCounter);
 					}
 				});
 			}
 		}
-		turnCounter++;
 	}
 
 	@Override
@@ -93,7 +118,7 @@ public class Battleships_Main extends Application {
 		System.out.println("What size grid would you like?");
 		Scanner scan = new Scanner(System.in);
 		gridSize = scan.nextInt();
-		
+
 		user = new User("User", 1, gridSize);
 		computer = new Computer("Computer", 1, gridSize);
 
