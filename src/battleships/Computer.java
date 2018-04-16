@@ -25,16 +25,4 @@ public class Computer extends Player {
 		computerSelection[x][y] = true;
 	}
 
-	public boolean isHit(int x, int y) {
-
-		boolean isHit = false;
-		if (computerSelection[x][y] == true) {
-			isHit = true;
-		} else {
-			isHit = false;
-		}
-
-		return isHit;
-	}
-
 }

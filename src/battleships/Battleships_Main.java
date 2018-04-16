@@ -1,6 +1,5 @@
 package battleships;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -19,16 +18,21 @@ public class Battleships_Main extends Application {
 
 	GridPane grid = new GridPane();
 	private int turnCounter = 0;
+	private int selectionCounter = 0;
 	private int gridSize;
 	private Button b[][];
 
 	// Create instances of classes
 	Player user;
 	Player computer;
-	Ship aircraftCarrier = new Ship("Aircraft Carrier", 5);
-	Ship battleship = new Ship("Battleship", 4);
-	Ship destroyer = new Ship("Destroyer", 3);
-	Ship patrolBoat = new Ship("Patrol Boat", 2);
+	Ship userPatrolBoat;
+	Ship computerPatrolBoat;
+	Ship userAircraftCarrier;
+	Ship computerAircraftCarrier;
+	Ship userBattleship;
+	Ship computerBattleship;
+	Ship userDestroyer;
+	Ship computerDestroyer;
 
 	public int computerSelectionX() {
 		Random r = new Random();
@@ -44,6 +48,77 @@ public class Battleships_Main extends Application {
 		return b;
 	}
 
+	public boolean checkValid(int i, int j) {
+
+		boolean checkValid = false;
+		return checkValid;
+
+	}
+
+	public void makeSelection(int gridSize) {
+
+		/* Make boat location selections */
+		/* TODO: Create array list of ships */
+
+		for (int x = 0; x < gridSize; x++) {
+			for (int y = 0; y < gridSize; y++) {
+				int i = x;
+				int j = y;
+				b[x][y].setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent e) {
+
+						if (selectionCounter == 0) {
+							System.out.println("Vertical or Horizontal?");
+							Scanner scan = new Scanner(System.in);
+							String input = scan.nextLine();
+							if (input.equals("H")) {
+								System.out.println("Select location for patrol boat.");
+								userPatrolBoat.setLocation(i, j);
+								userPatrolBoat.setLocation(i + 1, j);
+								b[i][j].setId("button-select");
+								b[i + 1][j].setId("button-select");
+							} else if (input.equals("V")) {
+								System.out.println("Select location for patrol boat.");
+								userPatrolBoat.setLocation(i, j);
+								userPatrolBoat.setLocation(i, j + 1);
+								b[i][j].setId("button-select");
+								b[i][j + 1].setId("button-select");
+							}
+
+							// Computer's selection
+							int compX = computerSelectionX();
+							int compY = computerSelectionY();
+							computerPatrolBoat.setLocation(compX, compY);
+							computerPatrolBoat.setLocation(compX, compY + 1);
+							b[compX][compY].setId("button-select");
+							b[compX][compY + 1].setId("button-select");
+
+							selectionCounter++;
+						}
+
+						if (selectionCounter == 1) {
+
+							// code for second type of boat
+
+						}
+
+						if (selectionCounter == 2) {
+
+							// code for third type of boat
+
+						}
+
+						if (selectionCounter == 3) {
+
+							// code for fourth type of boat
+
+						}
+					}
+				});
+			}
+		}
+	}
+
 	public void gamePlay(int gridSize) {
 
 		for (int x = 0; x < gridSize; x++) {
@@ -55,73 +130,56 @@ public class Battleships_Main extends Application {
 				b[x][y].setMinWidth(50);
 				b[x][y].setMinHeight(50);
 				grid.add(b[x][y], x, y);
+
+				makeSelection(gridSize);
+				
 				b[x][y].setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
+						
+						/* User's turn to shoot */
+						user.shoot(i, j);
 
-						if (turnCounter == 0) {
+						if (computerPatrolBoat.isHit(i, j) == true) {
+							System.out.println("You hit the computer.");
+							computer.loseLife();
+							b[i][j].setId("button-hit");
 
-							/* Make boat location selections */
-							/* TODO: Create array list of ships */
-							
-							System.out.println("Select location for patrol boat");
-							
-							
-							
-							user.userSelection(i, j);
-							int compX = computerSelectionX();
-							int compY = computerSelectionY();
-							computer.computerSelection(compX, compY);
-							b[i][j].setId("button-select");
-							b[compX][compY].setId("button-select");
+							if (computer.livesRemaining() == 0) {
+								System.out.println("Game is over. You won!");
+							}
 
+						} else {
+							System.out.println("You missed.");
+							b[i][j].setId("button-miss");
 						}
 
-						if (turnCounter > 0) {
+						Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), delayEvent -> {
 
-							/* User's turn to shoot */
-							user.shoot(i, j);
+							/* Computer's turn to shoot */
+							int shootX = computerSelectionX();
+							int shootY = computerSelectionY();
+							computer.shoot(shootX, shootY);
 
-							if (computer.isHit(i, j) == true) {
-								System.out.println("You hit the computer.");
-								computer.loseLife();
-								b[i][j].setId("button-hit");
+							/* TODO: If computer has already selected button, select another button */
 
-								if (computer.livesRemaining() == 0) {
-									System.out.println("Game is over. You won!");
+							if (userPatrolBoat.isHit(shootX, shootY) == true) {
+								System.out.println("Computer hit you.");
+								user.loseLife();
+								b[shootX][shootY].setId("button-hit");
+
+								if (user.livesRemaining() == 0) {
+									System.out.println("Game is over. Computer won!");
 								}
 
 							} else {
-								System.out.println("You missed.");
-								b[i][j].setId("button-miss");
+								System.out.println("Computer missed.");
+								b[shootX][shootY].setId("button-miss");
 							}
+						}));
+						tl.play();
 
-							Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), delayEvent -> {
+						System.out.println(turnCounter);
 
-								/* Computer's turn to shoot */
-								int shootX = computerSelectionX();
-								int shootY = computerSelectionY();
-								computer.shoot(shootX, shootY);
-
-								/* TODO: If computer has already selected button, select another button */
-
-								if (user.isHit(shootX, shootY) == true) {
-									System.out.println("Computer hit you.");
-									user.loseLife();
-									b[shootX][shootY].setId("button-hit");
-
-									if (user.livesRemaining() == 0) {
-										System.out.println("Game is over. Computer won!");
-									}
-
-								} else {
-									System.out.println("Computer missed.");
-									b[shootX][shootY].setId("button-miss");
-								}
-							}));
-							tl.play();
-
-							System.out.println(turnCounter);
-						}
 						turnCounter++;
 					}
 				});
@@ -140,6 +198,14 @@ public class Battleships_Main extends Application {
 
 		user = new User("User", 1, gridSize);
 		computer = new Computer("Computer", 1, gridSize);
+		userPatrolBoat = new Ship("Patrol Boat", 2, user, gridSize);
+		computerPatrolBoat = new Ship("Patrol Boat", 2, computer, gridSize);
+		userAircraftCarrier = new Ship("Aircraft Carrier", 5, user, gridSize);
+		computerAircraftCarrier = new Ship("Aircraft Carrier", 5, computer, gridSize);
+		userBattleship = new Ship("Battleship", 4, user, gridSize);
+		computerBattleship = new Ship("Battleship", 4, computer, gridSize);
+		userDestroyer = new Ship("Destroyer", 3, user, gridSize);
+		computerDestroyer = new Ship("Destroyer", 3, computer, gridSize);
 
 		scan.close();
 

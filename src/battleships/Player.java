@@ -36,10 +36,6 @@ public class Player {
 		return lives;
 	}
 
-	public boolean isHit(int x, int y) {
-		return false;
-	}
-
 	public void loseLife() {
 		lives--;
 	}

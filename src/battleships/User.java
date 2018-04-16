@@ -20,16 +20,4 @@ public class User extends Player {
 		return userShots[x][y] = true;
 	}
 
-	public boolean isHit(int x, int y) {
-
-		boolean isHit = false;
-		if (userSelection[x][y] == true) {
-			isHit = true;
-		} else {
-			isHit = false;
-		}
-
-		return isHit;
-	}
-
 }
