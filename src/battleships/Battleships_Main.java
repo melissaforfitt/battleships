@@ -2,6 +2,9 @@ package battleships;
 
 import java.util.Random;
 import java.util.Scanner;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Battleships_Main extends Application {
 
@@ -55,6 +59,7 @@ public class Battleships_Main extends Application {
 
 						if (turnCounter == 0) {
 
+							/* Make boat location selections */
 							/* TODO: Create array list of ships */
 							user.userSelection(i, j);
 							int compX = computerSelectionX();
@@ -67,6 +72,7 @@ public class Battleships_Main extends Application {
 
 						if (turnCounter > 0 && turnCounter % 2 == 0) {
 
+							/* User's turn to shoot */
 							user.shoot(i, j);
 
 							if (computer.isHit() == true) {
@@ -83,8 +89,11 @@ public class Battleships_Main extends Application {
 								b[i][j].setId("button-miss");
 							}
 
-						} else {
+						}
 
+						Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), delayEvent -> {
+							// Event here
+							/* Computer's turn to shoot */
 							int shootX = computerSelectionX();
 							int shootY = computerSelectionY();
 							computer.shoot(shootX, shootY);
@@ -97,24 +106,28 @@ public class Battleships_Main extends Application {
 								if (user.livesRemaining() == 0) {
 									System.out.println("Game is over. Computer won!");
 								}
+
 							} else {
 								System.out.println("Computer missed.");
 								b[shootX][shootY].setId("button-miss");
 							}
-							turnCounter++;
-							System.out.println(turnCounter);
-						}
+						}));
+						tl.play();
+
 						turnCounter++;
 						System.out.println(turnCounter);
+
 					}
 				});
 			}
 		}
+
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
+		/* Allow user to choose grid size */
 		System.out.println("What size grid would you like?");
 		Scanner scan = new Scanner(System.in);
 		gridSize = scan.nextInt();
