@@ -23,7 +23,7 @@ public class Player {
 	public void userSelection(int x, int y) {
 
 	}
-	
+
 	public void computerSelection(int x, int y) {
 
 	}
@@ -36,7 +36,7 @@ public class Player {
 		return lives;
 	}
 
-	public boolean isHit() {
+	public boolean isHit(int x, int y) {
 		return false;
 	}
 

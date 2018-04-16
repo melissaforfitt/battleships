@@ -67,8 +67,7 @@ public class Battleships_Main extends Application {
 							computer.computerSelection(compX, compY);
 							b[i][j].setId("button-select");
 							b[compX][compY].setId("button-select");
-							turnCounter++;
-							
+
 						}
 
 						if (turnCounter > 0) {
@@ -76,7 +75,7 @@ public class Battleships_Main extends Application {
 							/* User's turn to shoot */
 							user.shoot(i, j);
 
-							if (computer.isHit() == true) {
+							if (computer.isHit(i, j) == true) {
 								System.out.println("You hit the computer.");
 								computer.loseLife();
 								b[i][j].setId("button-hit");
@@ -97,7 +96,9 @@ public class Battleships_Main extends Application {
 								int shootY = computerSelectionY();
 								computer.shoot(shootX, shootY);
 
-								if (user.isHit() == true) {
+								/* TODO: If computer has already selected button, select another button */
+
+								if (user.isHit(shootX, shootY) == true) {
 									System.out.println("Computer hit you.");
 									user.loseLife();
 									b[shootX][shootY].setId("button-hit");
@@ -113,9 +114,9 @@ public class Battleships_Main extends Application {
 							}));
 							tl.play();
 
-							turnCounter++;
 							System.out.println(turnCounter);
 						}
+						turnCounter++;
 					}
 				});
 			}

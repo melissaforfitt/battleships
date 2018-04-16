@@ -3,27 +3,27 @@ package battleships;
 public class User extends Player {
 
 	private String name = "user";
-	private boolean userChosen[][];
+	private boolean userSelection[][];
 	private boolean userShots[][];
 
 	public User(String name, int lives, int gridSize) {
 		super(name, lives, gridSize);
-		userChosen = new boolean[gridSize][gridSize];
+		userSelection = new boolean[gridSize][gridSize];
 		userShots = new boolean[gridSize][gridSize];
 	}
 
 	public void userSelection(int x, int y) {
-		userChosen[x][y] = true;
+		userSelection[x][y] = true;
 	}
 
 	public boolean shoot(int x, int y) {
 		return userShots[x][y] = true;
 	}
 
-	public boolean isHit() {
+	public boolean isHit(int x, int y) {
 
-		boolean isHit;
-		if (userShots[x][y] = true) {
+		boolean isHit = false;
+		if (userSelection[x][y] == true) {
 			isHit = true;
 		} else {
 			isHit = false;
