@@ -22,6 +22,9 @@ public class Battleships_Main extends Application {
 	private int gridSize;
 	private Button b[][];
 
+	boolean patrolBoatSelected;
+	boolean selection;
+
 	// Create instances of classes
 	Player user;
 	Player computer;
@@ -55,10 +58,24 @@ public class Battleships_Main extends Application {
 
 	}
 
+	public void buildGrid(int gridSize) {
+
+		for (int x = 0; x < gridSize; x++) {
+			for (int y = 0; y < gridSize; y++) {
+				b[x][y] = new Button();
+				b[x][y].setId("grid-buttons");
+				b[x][y].setMinWidth(50);
+				b[x][y].setMinHeight(50);
+				grid.add(b[x][y], x, y);
+			}
+		}
+
+	}
+
 	public void makeSelection(int gridSize) {
 
 		/* Make boat location selections */
-		/* TODO: Create array list of ships */
+		/* TODO: Create game playable with multiple boat selections */
 
 		for (int x = 0; x < gridSize; x++) {
 			for (int y = 0; y < gridSize; y++) {
@@ -66,23 +83,28 @@ public class Battleships_Main extends Application {
 				int j = y;
 				b[x][y].setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
-
+						System.out.println(selectionCounter);
 						if (selectionCounter == 0) {
+							System.out.println("Patrol Boat Setup:");
+							System.out.println("Select location for patrol boat.");
+							patrolBoatSelected = false;
+							userPatrolBoat.setLocation(i, j);
+							b[i][j].setId("button-select");
+							patrolBoatSelected = true;
+						}
+						if (patrolBoatSelected == true) {
 							System.out.println("Vertical or Horizontal?");
 							Scanner scan = new Scanner(System.in);
-							String input = scan.nextLine();
-							if (input.equals("H")) {
-								System.out.println("Select location for patrol boat.");
-								userPatrolBoat.setLocation(i, j);
-								userPatrolBoat.setLocation(i + 1, j);
-								b[i][j].setId("button-select");
-								b[i + 1][j].setId("button-select");
-							} else if (input.equals("V")) {
-								System.out.println("Select location for patrol boat.");
-								userPatrolBoat.setLocation(i, j);
-								userPatrolBoat.setLocation(i, j + 1);
-								b[i][j].setId("button-select");
-								b[i][j + 1].setId("button-select");
+							System.out.print(scan.hasNextLine());
+							if (scan.hasNextLine()) {
+								String input = scan.nextLine();
+								if (input.equals("H") || (input.equals("h"))) {
+									userPatrolBoat.setLocation(i + 1, j);
+									b[i + 1][j].setId("button-select");
+								} else if (input.equals("V") || input.equals("v")) {
+									userPatrolBoat.setLocation(i, j + 1);
+									b[i][j + 1].setId("button-select");
+								}
 							}
 
 							// Computer's selection
@@ -93,28 +115,29 @@ public class Battleships_Main extends Application {
 							b[compX][compY].setId("button-select");
 							b[compX][compY + 1].setId("button-select");
 
-							selectionCounter++;
-						}
-
-						if (selectionCounter == 1) {
-
-							// code for second type of boat
-
-						}
-
-						if (selectionCounter == 2) {
-
-							// code for third type of boat
-
-						}
-
-						if (selectionCounter == 3) {
-
-							// code for fourth type of boat
-
+							//selectionCounter++;
+							selection = true;
 						}
 					}
 				});
+			}
+
+			if (selectionCounter == 1) {
+
+				// code for second type of boat
+
+			}
+
+			if (selectionCounter == 2) {
+
+				// code for third type of boat
+
+			}
+
+			if (selectionCounter == 3) {
+
+				// code for fourth type of boat
+
 			}
 		}
 	}
@@ -125,17 +148,10 @@ public class Battleships_Main extends Application {
 			for (int y = 0; y < gridSize; y++) {
 				int i = x;
 				int j = y;
-				b[x][y] = new Button();
-				b[x][y].setId("grid-buttons");
-				b[x][y].setMinWidth(50);
-				b[x][y].setMinHeight(50);
-				grid.add(b[x][y], x, y);
 
-				makeSelection(gridSize);
-				
 				b[x][y].setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
-						
+
 						/* User's turn to shoot */
 						user.shoot(i, j);
 
@@ -210,7 +226,16 @@ public class Battleships_Main extends Application {
 		scan.close();
 
 		b = new Button[gridSize][gridSize];
-		gamePlay(gridSize);
+
+		buildGrid(gridSize);
+
+		selection = false;
+
+		makeSelection(gridSize);
+
+		if (selection == true) {
+			gamePlay(gridSize);
+		}
 
 		// Create scene
 		Scene scene = new Scene(grid, 50 * gridSize, 50 * gridSize);
