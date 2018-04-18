@@ -22,8 +22,8 @@ public class Battleships_Main extends Application {
 	private int gridSize;
 	private Button b[][];
 
-	boolean patrolBoatSelected;
-	boolean selection;
+	boolean selection = false;
+	boolean patrolBoatSelected = false;
 
 	// Create instances of classes
 	Player user;
@@ -77,6 +77,8 @@ public class Battleships_Main extends Application {
 		/* Make boat location selections */
 		/* TODO: Create game playable with multiple boat selections */
 
+		Scanner scan = new Scanner(System.in);
+
 		for (int x = 0; x < gridSize; x++) {
 			for (int y = 0; y < gridSize; y++) {
 				int i = x;
@@ -87,36 +89,34 @@ public class Battleships_Main extends Application {
 						if (selectionCounter == 0) {
 							System.out.println("Patrol Boat Setup:");
 							System.out.println("Select location for patrol boat.");
-							patrolBoatSelected = false;
 							userPatrolBoat.setLocation(i, j);
 							b[i][j].setId("button-select");
 							patrolBoatSelected = true;
-						}
-						if (patrolBoatSelected == true) {
-							System.out.println("Vertical or Horizontal?");
-							Scanner scan = new Scanner(System.in);
-							System.out.print(scan.hasNextLine());
-							if (scan.hasNextLine()) {
-								String input = scan.nextLine();
-								if (input.equals("H") || (input.equals("h"))) {
-									userPatrolBoat.setLocation(i + 1, j);
-									b[i + 1][j].setId("button-select");
-								} else if (input.equals("V") || input.equals("v")) {
-									userPatrolBoat.setLocation(i, j + 1);
-									b[i][j + 1].setId("button-select");
+							if (patrolBoatSelected == true) {
+								System.out.println("Vertical or Horizontal?");
+								System.out.print(scan.hasNextLine());
+								if (scan.hasNextLine()) {
+									String input = scan.next();
+									if (input.equals("H") || (input.equals("h"))) {
+										userPatrolBoat.setLocation(i + 1, j);
+										b[i + 1][j].setId("button-select");
+									} else if (input.equals("V") || input.equals("v")) {
+										userPatrolBoat.setLocation(i, j + 1);
+										b[i][j + 1].setId("button-select");
+									}
 								}
+
+								// Computer's selection
+								int compX = computerSelectionX();
+								int compY = computerSelectionY();
+								computerPatrolBoat.setLocation(compX, compY);
+								computerPatrolBoat.setLocation(compX, compY + 1);
+								b[compX][compY].setId("button-select");
+								b[compX][compY + 1].setId("button-select");
+
+								// selectionCounter++;
+								selection = true;
 							}
-
-							// Computer's selection
-							int compX = computerSelectionX();
-							int compY = computerSelectionY();
-							computerPatrolBoat.setLocation(compX, compY);
-							computerPatrolBoat.setLocation(compX, compY + 1);
-							b[compX][compY].setId("button-select");
-							b[compX][compY + 1].setId("button-select");
-
-							//selectionCounter++;
-							selection = true;
 						}
 					}
 				});
@@ -228,8 +228,6 @@ public class Battleships_Main extends Application {
 		b = new Button[gridSize][gridSize];
 
 		buildGrid(gridSize);
-
-		selection = false;
 
 		makeSelection(gridSize);
 
