@@ -29,6 +29,8 @@ public class Battleships_Main extends Application {
 	boolean selection;
 	boolean patrolBoatSelected;
 	boolean destroyerBoatSelected;
+	boolean battleshipSelected;
+	boolean aircraftCarrierSelected;
 
 	// Create instances of classes
 	Player user;
@@ -80,7 +82,6 @@ public class Battleships_Main extends Application {
 	public void makeSelection(int gridSize) {
 
 		/* Make boat location selections */
-		/* TODO: Create game playable with multiple boat selections */
 
 		for (int x = 0; x < gridSize; x++) {
 			for (int y = 0; y < gridSize; y++) {
@@ -116,64 +117,135 @@ public class Battleships_Main extends Application {
 
 								selectionCounter++;
 							}
+						}
 
-							if (selectionCounter == 1) {
+						if (selectionCounter == 1) {
 
-								// code for second type of boat
+							System.out.println("Destroyer Boat Setup:");
+							System.out.println("Select location for destroyer boat.");
+							userDestroyer.setLocation(i, j);
+							b[i][j].setId("button-select");
+							destroyerBoatSelected = true;
+							if (destroyerBoatSelected == true) {
+								System.out.println("Vertical or Horizontal?");
+								String position = scan.next();
+								if (position.equals("H") || (position.equals("h"))) {
+									userDestroyer.setLocation(i + 1, j);
+									userDestroyer.setLocation(i + 2, j);
+									b[i + 1][j].setId("button-select");
+									b[i + 2][j].setId("button-select");
+								} else if (position.equals("V") || position.equals("v")) {
+									userDestroyer.setLocation(i, j + 1);
+									userDestroyer.setLocation(i, j + 2);
+									b[i][j + 1].setId("button-select");
+									b[i][j + 2].setId("button-select");
+								}
 
-								System.out.println("Destroyer Boat Setup:");
-								System.out.println("Select location for destroyer boat.");
-								userDestroyer.setLocation(i, j);
-								b[i][j].setId("button-select");
-								destroyerBoatSelected = true;
-								if (destroyerBoatSelected == true) {
-									System.out.println("Vertical or Horizontal?");
-									String position = scan.next();
-									if (position.equals("H") || (position.equals("h"))) {
-										userDestroyer.setLocation(i + 1, j);
-										userDestroyer.setLocation(i + 2, j);
-										b[i + 1][j].setId("button-select");
-										b[i + 2][j].setId("button-select");
-									} else if (position.equals("V") || position.equals("v")) {
-										userDestroyer.setLocation(i, j + 1);
-										userDestroyer.setLocation(i, j + 2);
-										b[i][j + 1].setId("button-select");
-										b[i][j + 2].setId("button-select");
-									}
+								// Computer's selection
+								compX = computerSelectionX();
+								compY = computerSelectionY();
+								computerDestroyer.setLocation(compX, compY);
+								computerDestroyer.setLocation(compX, compY + 1);
+								computerDestroyer.setLocation(compX, compY + 2);
+								b[compX][compY].setId("button-select");
+								b[compX][compY + 1].setId("button-select");
+								b[compX][compY + 2].setId("button-select");
 
-									// Computer's selection
-									compX = computerSelectionX();
-									compY = computerSelectionY();
-									computerDestroyer.setLocation(compX, compY);
-									computerDestroyer.setLocation(compX, compY + 1);
-									b[compX][compY].setId("button-select");
-									b[compX][compY + 1].setId("button-select");
+								selectionCounter++;
+							}
+						}
 
-									// IMPORTANT CODE TO GO AT END OF METHOD FOR CONTINUING GAME
-									selection = true;
-									System.out.println(selection);
-									if (selection == true) {
-										gamePlay(gridSize);
-									}
+						if (selectionCounter == 2) {
 
+							System.out.println("Battleship Setup:");
+							System.out.println("Select location for battleship.");
+							userBattleship.setLocation(i, j);
+							b[i][j].setId("button-select");
+							battleshipSelected = true;
+							if (battleshipSelected == true) {
+								System.out.println("Vertical or Horizontal?");
+								String position = scan.next();
+								if (position.equals("H") || (position.equals("h"))) {
+									userBattleship.setLocation(i + 1, j);
+									userBattleship.setLocation(i + 2, j);
+									userBattleship.setLocation(i + 3, j);
+									b[i + 1][j].setId("button-select");
+									b[i + 2][j].setId("button-select");
+									b[i + 3][j].setId("button-select");
+								} else if (position.equals("V") || position.equals("v")) {
+									userBattleship.setLocation(i, j + 1);
+									userBattleship.setLocation(i, j + 2);
+									userBattleship.setLocation(i, j + 3);
+									b[i][j + 1].setId("button-select");
+									b[i][j + 2].setId("button-select");
+									b[i][j + 3].setId("button-select");
+								}
+
+								// Computer's selection
+								compX = computerSelectionX();
+								compY = computerSelectionY();
+								computerBattleship.setLocation(compX, compY);
+								computerBattleship.setLocation(compX, compY + 1);
+								computerBattleship.setLocation(compX, compY + 2);
+								b[compX][compY].setId("button-select");
+								b[compX][compY + 1].setId("button-select");
+								b[compX][compY + 2].setId("button-select");
+
+								selectionCounter++;
+							}
+
+						}
+
+						if (selectionCounter == 3) {
+
+							System.out.println("Aircraft Carrier Setup:");
+							System.out.println("Select location for aircraft carrier.");
+							userAircraftCarrier.setLocation(i, j);
+							b[i][j].setId("button-select");
+							aircraftCarrierSelected = true;
+							if (aircraftCarrierSelected == true) {
+								System.out.println("Vertical or Horizontal?");
+								String position = scan.next();
+								if (position.equals("H") || (position.equals("h"))) {
+									userAircraftCarrier.setLocation(i + 1, j);
+									userAircraftCarrier.setLocation(i + 2, j);
+									userAircraftCarrier.setLocation(i + 3, j);
+									b[i + 1][j].setId("button-select");
+									b[i + 2][j].setId("button-select");
+									b[i + 3][j].setId("button-select");
+									b[i + 4][j].setId("button-select");
+								} else if (position.equals("V") || position.equals("v")) {
+									userAircraftCarrier.setLocation(i, j + 1);
+									userAircraftCarrier.setLocation(i, j + 2);
+									userAircraftCarrier.setLocation(i, j + 3);
+									b[i][j + 1].setId("button-select");
+									b[i][j + 2].setId("button-select");
+									b[i][j + 3].setId("button-select");
+									b[i][j + 4].setId("button-select");
+								}
+
+								// Computer's selection
+								compX = computerSelectionX();
+								compY = computerSelectionY();
+								computerAircraftCarrier.setLocation(compX, compY);
+								computerAircraftCarrier.setLocation(compX, compY + 1);
+								computerAircraftCarrier.setLocation(compX, compY + 2);
+								b[compX][compY].setId("button-select");
+								b[compX][compY + 1].setId("button-select");
+								b[compX][compY + 2].setId("button-select");
+								b[compX][compY + 3].setId("button-select");
+
+								// Once boat selections have been made, continue with game
+								selection = true;
+								System.out.println(selection);
+								if (selection == true) {
+									gamePlay(gridSize);
 								}
 							}
 						}
 					}
 				});
 			}
-		}
-
-		if (selectionCounter == 2) {
-
-			// code for third type of boat
-
-		}
-
-		if (selectionCounter == 3) {
-
-			// code for fourth type of boat
-
 		}
 	}
 
