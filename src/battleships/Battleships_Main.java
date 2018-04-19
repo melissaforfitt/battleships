@@ -23,7 +23,7 @@ public class Battleships_Main extends Application {
 	private Button b[][];
 	static Scanner scan;
 
-	boolean selection = false;
+	boolean selection;
 	boolean patrolBoatSelected;
 
 	// Create instances of classes
@@ -112,6 +112,10 @@ public class Battleships_Main extends Application {
 
 								// selectionCounter++;
 								selection = true;
+								System.out.println(selection);
+								if (selection == true) {
+									gamePlay(gridSize);
+								}
 							}
 						}
 					}
@@ -197,7 +201,6 @@ public class Battleships_Main extends Application {
 				});
 			}
 		}
-
 	}
 
 	@Override
@@ -223,10 +226,6 @@ public class Battleships_Main extends Application {
 		buildGrid(gridSize);
 
 		makeSelection(gridSize);
-
-		if (selection == true) {
-			gamePlay(gridSize);
-		}
 
 		// Create scene
 		Scene scene = new Scene(grid, 50 * gridSize, 50 * gridSize);
