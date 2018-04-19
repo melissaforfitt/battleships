@@ -21,9 +21,10 @@ public class Battleships_Main extends Application {
 	private int selectionCounter = 0;
 	private int gridSize;
 	private Button b[][];
+	static Scanner scan;
 
 	boolean selection = false;
-	boolean patrolBoatSelected = false;
+	boolean patrolBoatSelected;
 
 	// Create instances of classes
 	Player user;
@@ -77,8 +78,6 @@ public class Battleships_Main extends Application {
 		/* Make boat location selections */
 		/* TODO: Create game playable with multiple boat selections */
 
-		Scanner scan = new Scanner(System.in);
-
 		for (int x = 0; x < gridSize; x++) {
 			for (int y = 0; y < gridSize; y++) {
 				int i = x;
@@ -94,16 +93,13 @@ public class Battleships_Main extends Application {
 							patrolBoatSelected = true;
 							if (patrolBoatSelected == true) {
 								System.out.println("Vertical or Horizontal?");
-								System.out.print(scan.hasNextLine());
-								if (scan.hasNextLine()) {
-									String input = scan.next();
-									if (input.equals("H") || (input.equals("h"))) {
-										userPatrolBoat.setLocation(i + 1, j);
-										b[i + 1][j].setId("button-select");
-									} else if (input.equals("V") || input.equals("v")) {
-										userPatrolBoat.setLocation(i, j + 1);
-										b[i][j + 1].setId("button-select");
-									}
+								String position = scan.next();
+								if (position.equals("H") || (position.equals("h"))) {
+									userPatrolBoat.setLocation(i + 1, j);
+									b[i + 1][j].setId("button-select");
+								} else if (position.equals("V") || position.equals("v")) {
+									userPatrolBoat.setLocation(i, j + 1);
+									b[i][j + 1].setId("button-select");
 								}
 
 								// Computer's selection
@@ -205,11 +201,10 @@ public class Battleships_Main extends Application {
 	}
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) {
 
 		/* Allow user to choose grid size */
 		System.out.println("What size grid would you like?");
-		Scanner scan = new Scanner(System.in);
 		gridSize = scan.nextInt();
 
 		user = new User("User", 1, gridSize);
@@ -222,8 +217,6 @@ public class Battleships_Main extends Application {
 		computerBattleship = new Ship("Battleship", 4, computer, gridSize);
 		userDestroyer = new Ship("Destroyer", 3, user, gridSize);
 		computerDestroyer = new Ship("Destroyer", 3, computer, gridSize);
-
-		scan.close();
 
 		b = new Button[gridSize][gridSize];
 
@@ -241,12 +234,17 @@ public class Battleships_Main extends Application {
 		primaryStage.setTitle("Battleships");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+
 	}
 
 	public static void main(String[] args) {
 
+		scan = new Scanner(System.in);
+
 		// Launch the game
 		launch(args);
+
+		scan.close();
 
 	}
 
