@@ -23,8 +23,12 @@ public class Battleships_Main extends Application {
 	private Button b[][];
 	static Scanner scan;
 
+	private int compX;
+	private int compY;
+
 	boolean selection;
 	boolean patrolBoatSelected;
+	boolean destroyerBoatSelected;
 
 	// Create instances of classes
 	Player user;
@@ -103,42 +107,73 @@ public class Battleships_Main extends Application {
 								}
 
 								// Computer's selection
-								int compX = computerSelectionX();
-								int compY = computerSelectionY();
+								compX = computerSelectionX();
+								compY = computerSelectionY();
 								computerPatrolBoat.setLocation(compX, compY);
 								computerPatrolBoat.setLocation(compX, compY + 1);
 								b[compX][compY].setId("button-select");
 								b[compX][compY + 1].setId("button-select");
 
-								// selectionCounter++;
-								selection = true;
-								System.out.println(selection);
-								if (selection == true) {
-									gamePlay(gridSize);
+								selectionCounter++;
+							}
+
+							if (selectionCounter == 1) {
+
+								// code for second type of boat
+
+								System.out.println("Destroyer Boat Setup:");
+								System.out.println("Select location for destroyer boat.");
+								userDestroyer.setLocation(i, j);
+								b[i][j].setId("button-select");
+								destroyerBoatSelected = true;
+								if (destroyerBoatSelected == true) {
+									System.out.println("Vertical or Horizontal?");
+									String position = scan.next();
+									if (position.equals("H") || (position.equals("h"))) {
+										userDestroyer.setLocation(i + 1, j);
+										userDestroyer.setLocation(i + 2, j);
+										b[i + 1][j].setId("button-select");
+										b[i + 2][j].setId("button-select");
+									} else if (position.equals("V") || position.equals("v")) {
+										userDestroyer.setLocation(i, j + 1);
+										userDestroyer.setLocation(i, j + 2);
+										b[i][j + 1].setId("button-select");
+										b[i][j + 2].setId("button-select");
+									}
+
+									// Computer's selection
+									compX = computerSelectionX();
+									compY = computerSelectionY();
+									computerDestroyer.setLocation(compX, compY);
+									computerDestroyer.setLocation(compX, compY + 1);
+									b[compX][compY].setId("button-select");
+									b[compX][compY + 1].setId("button-select");
+
+									// IMPORTANT CODE TO GO AT END OF METHOD FOR CONTINUING GAME
+									selection = true;
+									System.out.println(selection);
+									if (selection == true) {
+										gamePlay(gridSize);
+									}
+
 								}
 							}
 						}
 					}
 				});
 			}
+		}
 
-			if (selectionCounter == 1) {
+		if (selectionCounter == 2) {
 
-				// code for second type of boat
+			// code for third type of boat
 
-			}
+		}
 
-			if (selectionCounter == 2) {
+		if (selectionCounter == 3) {
 
-				// code for third type of boat
+			// code for fourth type of boat
 
-			}
-
-			if (selectionCounter == 3) {
-
-				// code for fourth type of boat
-
-			}
 		}
 	}
 
@@ -214,12 +249,12 @@ public class Battleships_Main extends Application {
 		computer = new Computer("Computer", 1, gridSize);
 		userPatrolBoat = new Ship("Patrol Boat", 2, user, gridSize);
 		computerPatrolBoat = new Ship("Patrol Boat", 2, computer, gridSize);
-		userAircraftCarrier = new Ship("Aircraft Carrier", 5, user, gridSize);
-		computerAircraftCarrier = new Ship("Aircraft Carrier", 5, computer, gridSize);
-		userBattleship = new Ship("Battleship", 4, user, gridSize);
-		computerBattleship = new Ship("Battleship", 4, computer, gridSize);
 		userDestroyer = new Ship("Destroyer", 3, user, gridSize);
 		computerDestroyer = new Ship("Destroyer", 3, computer, gridSize);
+		userBattleship = new Ship("Battleship", 4, user, gridSize);
+		computerBattleship = new Ship("Battleship", 4, computer, gridSize);
+		userAircraftCarrier = new Ship("Aircraft Carrier", 5, user, gridSize);
+		computerAircraftCarrier = new Ship("Aircraft Carrier", 5, computer, gridSize);
 
 		b = new Button[gridSize][gridSize];
 
