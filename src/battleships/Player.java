@@ -1,18 +1,15 @@
 package battleships;
 
-import java.util.Random;
-
 public class Player {
 
 	int x;
 	int y;
 	String name;
-	int lives;
+	int lives = 14;
 
 	public Player(String name, int lives, int gridSize) {
 
 		this.name = name;
-		this.lives = lives;
 
 	}
 

@@ -11,13 +11,14 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Battleships_Main extends Application {
 
 	// Create variables needed throughout game
-	GridPane grid = new GridPane();
+	private GridPane grid = new GridPane();
 	private int turnCounter = 0;
 	private int selectionCounter = 0;
 	private int gridSize;
@@ -78,12 +79,17 @@ public class Battleships_Main extends Application {
 				grid.add(b[x][y], x, y);
 			}
 		}
-
 	}
 
 	public void makeSelection(int gridSize) {
 
 		/* Make boat location selections for user and computer */
+
+		// Ask user to select boat without them having to click
+		if (selectionCounter == 0) {
+			System.out.println("Patrol Boat Setup:");
+			System.out.println("Select location for patrol boat.");
+		}
 
 		for (int x = 0; x < gridSize; x++) {
 			for (int y = 0; y < gridSize; y++) {
@@ -91,10 +97,9 @@ public class Battleships_Main extends Application {
 				int j = y;
 				b[x][y].setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
-						System.out.println(selectionCounter);
+
 						if (selectionCounter == 0) {
-							System.out.println("Patrol Boat Setup:");
-							System.out.println("Select location for patrol boat.");
+
 							userPatrolBoat.setLocation(i, j);
 							b[i][j].setId("button-select");
 							patrolBoatSelected = true;
@@ -118,13 +123,13 @@ public class Battleships_Main extends Application {
 								b[compX][compY + 1].setId("button-select");
 
 								// selectionCounter++;
+								System.out.println("Destroyer Boat Setup:");
+								System.out.println("Select location for destroyer boat.");
 							}
 						}
 
 						if (selectionCounter == 1) {
 
-							System.out.println("Destroyer Boat Setup:");
-							System.out.println("Select location for destroyer boat.");
 							userDestroyer.setLocation(i, j);
 							b[i][j].setId("button-select");
 							destroyerBoatSelected = true;
@@ -154,13 +159,13 @@ public class Battleships_Main extends Application {
 								b[compX][compY + 2].setId("button-select");
 
 								// selectionCounter++;
+								System.out.println("Battleship Setup:");
+								System.out.println("Select location for battleship.");
 							}
 						}
 
 						if (selectionCounter == 2) {
 
-							System.out.println("Battleship Setup:");
-							System.out.println("Select location for battleship.");
 							userBattleship.setLocation(i, j);
 							b[i][j].setId("button-select");
 							battleshipSelected = true;
@@ -194,14 +199,14 @@ public class Battleships_Main extends Application {
 								b[compX][compY + 2].setId("button-select");
 
 								// selectionCounter++;
+								System.out.println("Aircraft Carrier Setup:");
+								System.out.println("Select location for aircraft carrier.");
 							}
 
 						}
 
 						if (selectionCounter == 3) {
 
-							System.out.println("Aircraft Carrier Setup:");
-							System.out.println("Select location for aircraft carrier.");
 							userAircraftCarrier.setLocation(i, j);
 							b[i][j].setId("button-select");
 							aircraftCarrierSelected = true;
@@ -239,7 +244,9 @@ public class Battleships_Main extends Application {
 
 								// Once boat selections have been made, continue with game
 								selection = true;
-								System.out.println(selection);
+
+								System.out.println("Selection complete. Select a place to shoot to commence the battle.");
+
 								if (selection == true) {
 									gamePlay(gridSize);
 								}
