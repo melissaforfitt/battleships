@@ -115,7 +115,7 @@ public class Battleships_Main extends Application {
 								b[compX][compY].setId("button-select");
 								b[compX][compY + 1].setId("button-select");
 
-								selectionCounter++;
+								// selectionCounter++;
 							}
 						}
 
@@ -151,7 +151,7 @@ public class Battleships_Main extends Application {
 								b[compX][compY + 1].setId("button-select");
 								b[compX][compY + 2].setId("button-select");
 
-								selectionCounter++;
+								// selectionCounter++;
 							}
 						}
 
@@ -191,7 +191,7 @@ public class Battleships_Main extends Application {
 								b[compX][compY + 1].setId("button-select");
 								b[compX][compY + 2].setId("button-select");
 
-								selectionCounter++;
+								// selectionCounter++;
 							}
 
 						}
@@ -243,6 +243,7 @@ public class Battleships_Main extends Application {
 								}
 							}
 						}
+						selectionCounter++;
 					}
 				});
 			}
