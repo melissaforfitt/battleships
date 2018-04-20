@@ -16,6 +16,7 @@ import javafx.util.Duration;
 
 public class Battleships_Main extends Application {
 
+	// Create variables needed throughout game
 	GridPane grid = new GridPane();
 	private int turnCounter = 0;
 	private int selectionCounter = 0;
@@ -26,24 +27,25 @@ public class Battleships_Main extends Application {
 	private int compX;
 	private int compY;
 
-	boolean selection;
-	boolean patrolBoatSelected;
-	boolean destroyerBoatSelected;
-	boolean battleshipSelected;
-	boolean aircraftCarrierSelected;
+	private boolean selection;
+	private boolean patrolBoatSelected;
+	private boolean destroyerBoatSelected;
+	private boolean battleshipSelected;
+	private boolean aircraftCarrierSelected;
 
 	// Create instances of classes
-	Player user;
-	Player computer;
-	Ship userPatrolBoat;
-	Ship computerPatrolBoat;
-	Ship userAircraftCarrier;
-	Ship computerAircraftCarrier;
-	Ship userBattleship;
-	Ship computerBattleship;
-	Ship userDestroyer;
-	Ship computerDestroyer;
+	private Player user;
+	private Player computer;
+	private Ship userPatrolBoat;
+	private Ship computerPatrolBoat;
+	private Ship userAircraftCarrier;
+	private Ship computerAircraftCarrier;
+	private Ship userBattleship;
+	private Ship computerBattleship;
+	private Ship userDestroyer;
+	private Ship computerDestroyer;
 
+	/* Computer selection methods get random number for X and Y coordinates */
 	public int computerSelectionX() {
 		Random r = new Random();
 		int a = r.nextInt(9) + 0;
@@ -81,7 +83,7 @@ public class Battleships_Main extends Application {
 
 	public void makeSelection(int gridSize) {
 
-		/* Make boat location selections */
+		/* Make boat location selections for user and computer */
 
 		for (int x = 0; x < gridSize; x++) {
 			for (int y = 0; y < gridSize; y++) {
@@ -252,6 +254,8 @@ public class Battleships_Main extends Application {
 
 	public void gamePlay(int gridSize) {
 
+		/* Main rules for battleship game play */
+
 		for (int x = 0; x < gridSize; x++) {
 			for (int y = 0; y < gridSize; y++) {
 				int i = x;
@@ -263,7 +267,9 @@ public class Battleships_Main extends Application {
 						/* User's turn to shoot */
 						user.shoot(i, j);
 
-						if (computerPatrolBoat.isHit(i, j) == true) {
+						if ((computerPatrolBoat.isHit(i, j) == true) || (computerDestroyer.isHit(i, j) == true)
+								|| (computerBattleship.isHit(i, j) == true)
+								|| (computerAircraftCarrier.isHit(i, j) == true)) {
 							System.out.println("You hit the computer.");
 							computer.loseLife();
 							b[i][j].setId("button-hit");
@@ -284,9 +290,12 @@ public class Battleships_Main extends Application {
 							int shootY = computerSelectionY();
 							computer.shoot(shootX, shootY);
 
-							/* TODO: If computer has already selected button, select another button */
+							/* TODO: If computer has already selected location, select another button */
 
-							if (userPatrolBoat.isHit(shootX, shootY) == true) {
+							if ((userPatrolBoat.isHit(shootX, shootY) == true)
+									|| (userDestroyer.isHit(shootX, shootY) == true)
+									|| (userBattleship.isHit(shootX, shootY) == true)
+									|| (userAircraftCarrier.isHit(shootX, shootY) == true)) {
 								System.out.println("Computer hit you.");
 								user.loseLife();
 								b[shootX][shootY].setId("button-hit");
@@ -318,6 +327,7 @@ public class Battleships_Main extends Application {
 		System.out.println("What size grid would you like?");
 		gridSize = scan.nextInt();
 
+		/* Create instances of players and ships */
 		user = new User("User", 1, gridSize);
 		computer = new Computer("Computer", 1, gridSize);
 		userPatrolBoat = new Ship("Patrol Boat", 2, user, gridSize);
@@ -335,7 +345,7 @@ public class Battleships_Main extends Application {
 
 		makeSelection(gridSize);
 
-		// Create scene
+		/* Create scene */
 		Scene scene = new Scene(grid, 50 * gridSize, 50 * gridSize);
 		scene.getStylesheets().add(this.getClass().getResource("Design.css").toExternalForm());
 		primaryStage.setTitle("Battleships");
@@ -348,7 +358,7 @@ public class Battleships_Main extends Application {
 
 		scan = new Scanner(System.in);
 
-		// Launch the game
+		/* Launch the game */
 		launch(args);
 
 		scan.close();
