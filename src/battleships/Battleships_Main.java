@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -18,7 +19,9 @@ import javafx.util.Duration;
 public class Battleships_Main extends Application {
 
 	// Create variables needed throughout game
-	private GridPane grid = new GridPane();
+	// private GridPane grid = new GridPane();
+	private GridPane userGrid = new GridPane();
+	private GridPane computerGrid = new GridPane();
 	private int turnCounter = 0;
 	private int selectionCounter = 0;
 	private int gridSize;
@@ -68,7 +71,7 @@ public class Battleships_Main extends Application {
 
 	}
 
-	public void buildGrid(int gridSize) {
+	public void buildUserGrid(int gridSize) {
 
 		for (int x = 0; x < gridSize; x++) {
 			for (int y = 0; y < gridSize; y++) {
@@ -76,7 +79,20 @@ public class Battleships_Main extends Application {
 				b[x][y].setId("grid-buttons");
 				b[x][y].setMinWidth(50);
 				b[x][y].setMinHeight(50);
-				grid.add(b[x][y], x, y);
+				userGrid.add(b[x][y], x, y);
+			}
+		}
+	}
+
+	public void buildComputerGrid(int gridSize) {
+
+		for (int x = 0; x < gridSize; x++) {
+			for (int y = 0; y < gridSize; y++) {
+				b[x][y] = new Button();
+				b[x][y].setId("grid-buttons");
+				b[x][y].setMinWidth(50);
+				b[x][y].setMinHeight(50);
+				computerGrid.add(b[x][y], x, y);
 			}
 		}
 	}
@@ -85,7 +101,6 @@ public class Battleships_Main extends Application {
 
 		/* Make boat location selections for user and computer */
 
-		// Ask user to select boat without them having to click
 		if (selectionCounter == 0) {
 			System.out.println("Patrol Boat Setup:");
 			System.out.println("Select location for patrol boat.");
@@ -245,7 +260,8 @@ public class Battleships_Main extends Application {
 								// Once boat selections have been made, continue with game
 								selection = true;
 
-								System.out.println("Selection complete. Select a place to shoot to commence the battle.");
+								System.out
+										.println("Selection complete. Select a place to shoot to commence the battle.");
 
 								if (selection == true) {
 									gamePlay(gridSize);
@@ -298,6 +314,7 @@ public class Battleships_Main extends Application {
 							computer.shoot(shootX, shootY);
 
 							/* TODO: If computer has already selected location, select another button */
+							/* TODO: Announce which boat has been sunk */
 
 							if ((userPatrolBoat.isHit(shootX, shootY) == true)
 									|| (userDestroyer.isHit(shootX, shootY) == true)
@@ -348,12 +365,27 @@ public class Battleships_Main extends Application {
 
 		b = new Button[gridSize][gridSize];
 
-		buildGrid(gridSize);
+		// Create HBox and add 2 grids to it (one for computer, one for user)
+		HBox hbox = new HBox();
+		Label user = new Label("User's Grid");
+		user.setTranslateX(75);
+		user.setTranslateY(520);
+		Label computer = new Label("Computer's Grid");
+		computer.setTranslateX(100);
+		computer.setTranslateY(520);
+
+		hbox.getChildren().add(user);
+		hbox.getChildren().add(userGrid);
+		hbox.getChildren().add(computer);
+		hbox.getChildren().add(computerGrid);
+
+		buildUserGrid(gridSize);
+		buildComputerGrid(gridSize);
 
 		makeSelection(gridSize);
 
 		/* Create scene */
-		Scene scene = new Scene(grid, 50 * gridSize, 50 * gridSize);
+		Scene scene = new Scene(hbox, 50 * (gridSize * 2) + 250, 50 * (gridSize) + 100);
 		scene.getStylesheets().add(this.getClass().getResource("Design.css").toExternalForm());
 		primaryStage.setTitle("Battleships");
 		primaryStage.setScene(scene);
