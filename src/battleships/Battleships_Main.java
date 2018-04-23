@@ -19,9 +19,8 @@ import javafx.util.Duration;
 public class Battleships_Main extends Application {
 
 	// Create variables needed throughout game
-	// private GridPane grid = new GridPane();
-	private GridPane userGrid = new GridPane();
-	private GridPane computerGrid = new GridPane();
+	private GridPane selectionGrid = new GridPane();
+	private GridPane hitsGrid = new GridPane();
 	private int turnCounter = 0;
 	private int selectionCounter = 0;
 	private int gridSize;
@@ -37,7 +36,7 @@ public class Battleships_Main extends Application {
 	private boolean battleshipSelected;
 	private boolean aircraftCarrierSelected;
 
-	// Create instances of classes
+	/* Create instances of classes */
 	private Player user;
 	private Player computer;
 	private Ship userPatrolBoat;
@@ -71,7 +70,7 @@ public class Battleships_Main extends Application {
 
 	}
 
-	public void buildUserGrid(int gridSize) {
+	public void buildSelectionGrid(int gridSize) {
 
 		for (int x = 0; x < gridSize; x++) {
 			for (int y = 0; y < gridSize; y++) {
@@ -79,12 +78,12 @@ public class Battleships_Main extends Application {
 				b[x][y].setId("grid-buttons");
 				b[x][y].setMinWidth(50);
 				b[x][y].setMinHeight(50);
-				userGrid.add(b[x][y], x, y);
+				selectionGrid.add(b[x][y], x, y);
 			}
 		}
 	}
 
-	public void buildComputerGrid(int gridSize) {
+	public void buildHitsGrid(int gridSize) {
 
 		for (int x = 0; x < gridSize; x++) {
 			for (int y = 0; y < gridSize; y++) {
@@ -92,7 +91,7 @@ public class Battleships_Main extends Application {
 				b[x][y].setId("grid-buttons");
 				b[x][y].setMinWidth(50);
 				b[x][y].setMinHeight(50);
-				computerGrid.add(b[x][y], x, y);
+				hitsGrid.add(b[x][y], x, y);
 			}
 		}
 	}
@@ -134,8 +133,6 @@ public class Battleships_Main extends Application {
 								compY = computerSelectionY();
 								computerPatrolBoat.setLocation(compX, compY);
 								computerPatrolBoat.setLocation(compX, compY + 1);
-								b[compX][compY].setId("button-select");
-								b[compX][compY + 1].setId("button-select");
 
 								// selectionCounter++;
 								System.out.println("Destroyer Boat Setup:");
@@ -169,9 +166,6 @@ public class Battleships_Main extends Application {
 								computerDestroyer.setLocation(compX, compY);
 								computerDestroyer.setLocation(compX, compY + 1);
 								computerDestroyer.setLocation(compX, compY + 2);
-								b[compX][compY].setId("button-select");
-								b[compX][compY + 1].setId("button-select");
-								b[compX][compY + 2].setId("button-select");
 
 								// selectionCounter++;
 								System.out.println("Battleship Setup:");
@@ -209,9 +203,6 @@ public class Battleships_Main extends Application {
 								computerBattleship.setLocation(compX, compY);
 								computerBattleship.setLocation(compX, compY + 1);
 								computerBattleship.setLocation(compX, compY + 2);
-								b[compX][compY].setId("button-select");
-								b[compX][compY + 1].setId("button-select");
-								b[compX][compY + 2].setId("button-select");
 
 								// selectionCounter++;
 								System.out.println("Aircraft Carrier Setup:");
@@ -252,12 +243,8 @@ public class Battleships_Main extends Application {
 								computerAircraftCarrier.setLocation(compX, compY);
 								computerAircraftCarrier.setLocation(compX, compY + 1);
 								computerAircraftCarrier.setLocation(compX, compY + 2);
-								b[compX][compY].setId("button-select");
-								b[compX][compY + 1].setId("button-select");
-								b[compX][compY + 2].setId("button-select");
-								b[compX][compY + 3].setId("button-select");
 
-								// Once boat selections have been made, continue with game
+								/* Once boat selections have been made, continue with game */
 								selection = true;
 
 								System.out
@@ -313,8 +300,8 @@ public class Battleships_Main extends Application {
 							int shootY = computerSelectionY();
 							computer.shoot(shootX, shootY);
 
-							/* TODO: If computer has already selected location, select another button */
 							/* TODO: Announce which boat has been sunk */
+							/* TODO: Put dialogue in window, not console */
 
 							if ((userPatrolBoat.isHit(shootX, shootY) == true)
 									|| (userDestroyer.isHit(shootX, shootY) == true)
@@ -322,7 +309,6 @@ public class Battleships_Main extends Application {
 									|| (userAircraftCarrier.isHit(shootX, shootY) == true)) {
 								System.out.println("Computer hit you.");
 								user.loseLife();
-								b[shootX][shootY].setId("button-hit");
 
 								if (user.livesRemaining() == 0) {
 									System.out.println("Game is over. Computer won!");
@@ -330,8 +316,8 @@ public class Battleships_Main extends Application {
 
 							} else {
 								System.out.println("Computer missed.");
-								b[shootX][shootY].setId("button-miss");
 							}
+
 						}));
 						tl.play();
 
@@ -365,24 +351,22 @@ public class Battleships_Main extends Application {
 
 		b = new Button[gridSize][gridSize];
 
-		// Create HBox and add 2 grids to it (one for computer, one for user)
+		/* Create HBox and add 2 grids to it (one for selection, one for hits/misses) */
 		HBox hbox = new HBox();
-		Label user = new Label("User's Grid");
-		user.setTranslateX(75);
-		user.setTranslateY(520);
-		Label computer = new Label("Computer's Grid");
-		computer.setTranslateX(100);
-		computer.setTranslateY(520);
+		Label selection = new Label("Selection Grid");
+		selection.setTranslateX(75);
+		selection.setTranslateY(520);
+		Label hits = new Label("Hits/Misses Grid");
+		hits.setTranslateX(100);
+		hits.setTranslateY(520);
 
-		hbox.getChildren().add(user);
-		hbox.getChildren().add(userGrid);
-		hbox.getChildren().add(computer);
-		hbox.getChildren().add(computerGrid);
-
-		buildUserGrid(gridSize);
-		buildComputerGrid(gridSize);
-
+		hbox.getChildren().add(selection);
+		hbox.getChildren().add(selectionGrid);
+		buildSelectionGrid(gridSize);
 		makeSelection(gridSize);
+		hbox.getChildren().add(hits);
+		hbox.getChildren().add(hitsGrid);
+		buildHitsGrid(gridSize);
 
 		/* Create scene */
 		Scene scene = new Scene(hbox, 50 * (gridSize * 2) + 250, 50 * (gridSize) + 100);
