@@ -72,13 +72,13 @@ public class Battleships_Main extends Application {
 
 	public void buildSelectionGrid(int gridSize) {
 
-		for (int x = 0; x < gridSize; x++) {
-			for (int y = 0; y < gridSize; y++) {
-				b[x][y] = new Button();
-				b[x][y].setId("grid-buttons");
-				b[x][y].setMinWidth(50);
-				b[x][y].setMinHeight(50);
-				selectionGrid.add(b[x][y], x, y);
+		for (int l = 0; l < gridSize; l++) {
+			for (int m = 0; m < gridSize; m++) {
+				b[l][m] = new Button();
+				b[l][m].setId("grid-buttons");
+				b[l][m].setMinWidth(50);
+				b[l][m].setMinHeight(50);
+				selectionGrid.add(b[l][m], l, m);
 			}
 		}
 	}
@@ -105,27 +105,27 @@ public class Battleships_Main extends Application {
 			System.out.println("Select location for patrol boat.");
 		}
 
-		for (int x = 0; x < gridSize; x++) {
-			for (int y = 0; y < gridSize; y++) {
-				int i = x;
-				int j = y;
-				b[x][y].setOnAction(new EventHandler<ActionEvent>() {
+		for (int l = 0; l < gridSize; l++) {
+			for (int m = 0; m < gridSize; m++) {
+				int n = l;
+				int o = m;
+				b[l][m].setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent e) {
 
 						if (selectionCounter == 0) {
 
-							userPatrolBoat.setLocation(i, j);
-							b[i][j].setId("button-select");
+							userPatrolBoat.setLocation(n, o);
+							b[n][o].setId("button-select");
 							patrolBoatSelected = true;
 							if (patrolBoatSelected == true) {
 								System.out.println("Vertical or Horizontal?");
 								String position = scan.next();
 								if (position.equals("H") || (position.equals("h"))) {
-									userPatrolBoat.setLocation(i + 1, j);
-									b[i + 1][j].setId("button-select");
+									userPatrolBoat.setLocation(n + 1, o);
+									b[n + 1][o].setId("button-select");
 								} else if (position.equals("V") || position.equals("v")) {
-									userPatrolBoat.setLocation(i, j + 1);
-									b[i][j + 1].setId("button-select");
+									userPatrolBoat.setLocation(n, o + 1);
+									b[n][o + 1].setId("button-select");
 								}
 
 								// Computer's selection
@@ -142,30 +142,30 @@ public class Battleships_Main extends Application {
 
 						if (selectionCounter == 1) {
 
-							userDestroyer.setLocation(i, j);
-							b[i][j].setId("button-select");
+							userDestroyer.setLocation(n, o);
+							b[n][o].setId("button-select");
 							destroyerBoatSelected = true;
 							if (destroyerBoatSelected == true) {
 								System.out.println("Vertical or Horizontal?");
 								String position = scan.next();
 								if (position.equals("H") || (position.equals("h"))) {
-									userDestroyer.setLocation(i + 1, j);
-									userDestroyer.setLocation(i + 2, j);
-									b[i + 1][j].setId("button-select");
-									b[i + 2][j].setId("button-select");
+									userDestroyer.setLocation(n + 1, o);
+									userDestroyer.setLocation(n + 2, o);
+									b[n + 1][o].setId("button-select");
+									b[n + 2][o].setId("button-select");
 								} else if (position.equals("V") || position.equals("v")) {
-									userDestroyer.setLocation(i, j + 1);
-									userDestroyer.setLocation(i, j + 2);
-									b[i][j + 1].setId("button-select");
-									b[i][j + 2].setId("button-select");
+									userDestroyer.setLocation(n, o + 1);
+									userDestroyer.setLocation(n, o + 2);
+									b[n][o + 1].setId("button-select");
+									b[n][o + 2].setId("button-select");
 								}
 
 								// Computer's selection
 								compX = computerSelectionX();
 								compY = computerSelectionY();
 								computerDestroyer.setLocation(compX, compY);
-								computerDestroyer.setLocation(compX, compY + 1);
-								computerDestroyer.setLocation(compX, compY + 2);
+								computerDestroyer.setLocation(compX + 1, compY);
+								computerDestroyer.setLocation(compX + 2, compY);
 
 								// selectionCounter++;
 								System.out.println("Battleship Setup:");
@@ -175,26 +175,26 @@ public class Battleships_Main extends Application {
 
 						if (selectionCounter == 2) {
 
-							userBattleship.setLocation(i, j);
-							b[i][j].setId("button-select");
+							userBattleship.setLocation(n, o);
+							b[n][o].setId("button-select");
 							battleshipSelected = true;
 							if (battleshipSelected == true) {
 								System.out.println("Vertical or Horizontal?");
 								String position = scan.next();
 								if (position.equals("H") || (position.equals("h"))) {
-									userBattleship.setLocation(i + 1, j);
-									userBattleship.setLocation(i + 2, j);
-									userBattleship.setLocation(i + 3, j);
-									b[i + 1][j].setId("button-select");
-									b[i + 2][j].setId("button-select");
-									b[i + 3][j].setId("button-select");
+									userBattleship.setLocation(n + 1, o);
+									userBattleship.setLocation(n + 2, o);
+									userBattleship.setLocation(n + 3, o);
+									b[n + 1][o].setId("button-select");
+									b[n + 2][o].setId("button-select");
+									b[n + 3][o].setId("button-select");
 								} else if (position.equals("V") || position.equals("v")) {
-									userBattleship.setLocation(i, j + 1);
-									userBattleship.setLocation(i, j + 2);
-									userBattleship.setLocation(i, j + 3);
-									b[i][j + 1].setId("button-select");
-									b[i][j + 2].setId("button-select");
-									b[i][j + 3].setId("button-select");
+									userBattleship.setLocation(n, o + 1);
+									userBattleship.setLocation(n, o + 2);
+									userBattleship.setLocation(n, o + 3);
+									b[n][o + 1].setId("button-select");
+									b[n][o + 2].setId("button-select");
+									b[n][o + 3].setId("button-select");
 								}
 
 								// Computer's selection
@@ -203,6 +203,7 @@ public class Battleships_Main extends Application {
 								computerBattleship.setLocation(compX, compY);
 								computerBattleship.setLocation(compX, compY + 1);
 								computerBattleship.setLocation(compX, compY + 2);
+								computerBattleship.setLocation(compX, compY + 3);
 
 								// selectionCounter++;
 								System.out.println("Aircraft Carrier Setup:");
@@ -213,28 +214,28 @@ public class Battleships_Main extends Application {
 
 						if (selectionCounter == 3) {
 
-							userAircraftCarrier.setLocation(i, j);
-							b[i][j].setId("button-select");
+							userAircraftCarrier.setLocation(n, o);
+							b[n][o].setId("button-select");
 							aircraftCarrierSelected = true;
 							if (aircraftCarrierSelected == true) {
 								System.out.println("Vertical or Horizontal?");
 								String position = scan.next();
 								if (position.equals("H") || (position.equals("h"))) {
-									userAircraftCarrier.setLocation(i + 1, j);
-									userAircraftCarrier.setLocation(i + 2, j);
-									userAircraftCarrier.setLocation(i + 3, j);
-									b[i + 1][j].setId("button-select");
-									b[i + 2][j].setId("button-select");
-									b[i + 3][j].setId("button-select");
-									b[i + 4][j].setId("button-select");
+									userAircraftCarrier.setLocation(n + 1, o);
+									userAircraftCarrier.setLocation(n + 2, o);
+									userAircraftCarrier.setLocation(n + 3, o);
+									b[n + 1][o].setId("button-select");
+									b[n + 2][o].setId("button-select");
+									b[n + 3][o].setId("button-select");
+									b[n + 4][o].setId("button-select");
 								} else if (position.equals("V") || position.equals("v")) {
-									userAircraftCarrier.setLocation(i, j + 1);
-									userAircraftCarrier.setLocation(i, j + 2);
-									userAircraftCarrier.setLocation(i, j + 3);
-									b[i][j + 1].setId("button-select");
-									b[i][j + 2].setId("button-select");
-									b[i][j + 3].setId("button-select");
-									b[i][j + 4].setId("button-select");
+									userAircraftCarrier.setLocation(n, o + 1);
+									userAircraftCarrier.setLocation(n, o + 2);
+									userAircraftCarrier.setLocation(n, o + 3);
+									b[n][o + 1].setId("button-select");
+									b[n][o + 2].setId("button-select");
+									b[n][o + 3].setId("button-select");
+									b[n][o + 4].setId("button-select");
 								}
 
 								// Computer's selection
@@ -243,6 +244,8 @@ public class Battleships_Main extends Application {
 								computerAircraftCarrier.setLocation(compX, compY);
 								computerAircraftCarrier.setLocation(compX, compY + 1);
 								computerAircraftCarrier.setLocation(compX, compY + 2);
+								computerAircraftCarrier.setLocation(compX, compY + 3);
+								computerAircraftCarrier.setLocation(compX, compY + 4);
 
 								/* Once boat selections have been made, continue with game */
 								selection = true;
@@ -321,8 +324,6 @@ public class Battleships_Main extends Application {
 						}));
 						tl.play();
 
-						System.out.println(turnCounter);
-
 						turnCounter++;
 					}
 				});
@@ -336,6 +337,7 @@ public class Battleships_Main extends Application {
 		/* Allow user to choose grid size */
 		System.out.println("What size grid would you like?");
 		gridSize = scan.nextInt();
+		System.out.println("Welcome to Battleships!");
 
 		/* Create instances of players and ships */
 		user = new User("User", 1, gridSize);
