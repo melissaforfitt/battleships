@@ -27,6 +27,7 @@ public class Battleships_Main extends Application {
 	private Button selectionButtons[][];
 	private Button hitButtons[][];
 	static Scanner scan;
+	private Label console = new Label("Here is where console output will go");
 
 	private int compX;
 	private int compY;
@@ -102,8 +103,8 @@ public class Battleships_Main extends Application {
 		/* Make boat location selections for user and computer */
 
 		if (selectionCounter == 0) {
-			System.out.println("Patrol Boat Setup:");
-			System.out.println("Select location for patrol boat.");
+			console.setText("Patrol Boat Setup");
+			console.setText("Select location for patrol boat.");
 		}
 
 		for (int l = 0; l < gridSize; l++) {
@@ -135,8 +136,8 @@ public class Battleships_Main extends Application {
 								computerPatrolBoat.setLocation(compX, compY);
 								computerPatrolBoat.setLocation(compX, compY + 1);
 
-								System.out.println("Destroyer Boat Setup:");
-								System.out.println("Select location for destroyer boat.");
+								console.setText("Destroyer Boat Setup:");
+								console.setText("Select location for destroyer boat.");
 							}
 						}
 
@@ -167,8 +168,8 @@ public class Battleships_Main extends Application {
 								computerDestroyer.setLocation(compX + 1, compY);
 								computerDestroyer.setLocation(compX + 2, compY);
 
-								System.out.println("Battleship Setup:");
-								System.out.println("Select location for battleship.");
+								console.setText("Battleship Setup:");
+								console.setText("Select location for battleship.");
 							}
 						}
 
@@ -204,8 +205,8 @@ public class Battleships_Main extends Application {
 								computerBattleship.setLocation(compX, compY + 2);
 								computerBattleship.setLocation(compX, compY + 3);
 
-								System.out.println("Aircraft Carrier Setup:");
-								System.out.println("Select location for aircraft carrier.");
+								console.setText("Aircraft Carrier Setup:");
+								console.setText("Select location for aircraft carrier.");
 							}
 
 						}
@@ -248,8 +249,7 @@ public class Battleships_Main extends Application {
 								/* Once boat selections have been made, continue with game */
 								selection = true;
 
-								System.out
-										.println("Selection complete. Select a place to shoot to commence the battle.");
+								console.setText("Selection complete. Select a place to shoot to commence the battle.");
 
 								if (selection == true) {
 									gamePlay(gridSize);
@@ -281,16 +281,16 @@ public class Battleships_Main extends Application {
 						if ((computerPatrolBoat.isHit(i, j) == true) || (computerDestroyer.isHit(i, j) == true)
 								|| (computerBattleship.isHit(i, j) == true)
 								|| (computerAircraftCarrier.isHit(i, j) == true)) {
-							System.out.println("You hit the computer.");
+							console.setText("You hit the computer.");
 							computer.loseLife();
 							hitButtons[i][j].setId("button-hit");
 
 							if (computer.livesRemaining() == 0) {
-								System.out.println("Game is over. You won!");
+								console.setText("Game is over. You won!");
 							}
 
 						} else {
-							System.out.println("You missed.");
+							console.setText("You missed.");
 							hitButtons[i][j].setId("button-miss");
 						}
 
@@ -302,17 +302,17 @@ public class Battleships_Main extends Application {
 							computer.shoot(shootX, shootY);
 
 							/* TODO: Announce which boat has been sunk */
-							/* TODO: Put dialogue in window, not console */
 
 							if ((userPatrolBoat.isHit(shootX, shootY) == true)
 									|| (userDestroyer.isHit(shootX, shootY) == true)
 									|| (userBattleship.isHit(shootX, shootY) == true)
 									|| (userAircraftCarrier.isHit(shootX, shootY) == true)) {
 								System.out.println("Computer hit you.");
+								selectionButtons[i][j].setId("button-hit");
 								user.loseLife();
 
 								if (user.livesRemaining() == 0) {
-									System.out.println("Game is over. Computer won!");
+									console.setText("Game is over. Computer won!");
 								}
 
 							} else {
@@ -336,6 +336,7 @@ public class Battleships_Main extends Application {
 		System.out.println("What size grid would you like?");
 		gridSize = scan.nextInt();
 		System.out.println("Welcome to Battleships!");
+		console.setText("Welcome to Battleships!");
 
 		/* Create instances of players and ships */
 		user = new User("User", 1, gridSize);
@@ -360,9 +361,12 @@ public class Battleships_Main extends Application {
 		Label hits = new Label("Hits/Misses Grid");
 		hits.setTranslateX(100);
 		hits.setTranslateY(520);
+		console.setTranslateX(0);
+		console.setTranslateY(550);
 
 		hbox.getChildren().add(selection);
 		hbox.getChildren().add(selectionGrid);
+		hbox.getChildren().add(console);
 		hbox.getChildren().add(hits);
 		hbox.getChildren().add(hitsGrid);
 
