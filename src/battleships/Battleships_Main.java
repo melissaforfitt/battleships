@@ -223,6 +223,7 @@ public class Battleships_Main extends Application {
 									userAircraftCarrier.setLocation(n + 1, o);
 									userAircraftCarrier.setLocation(n + 2, o);
 									userAircraftCarrier.setLocation(n + 3, o);
+									userAircraftCarrier.setLocation(n + 4, o);
 									selectionButtons[n + 1][o].setId("button-select");
 									selectionButtons[n + 2][o].setId("button-select");
 									selectionButtons[n + 3][o].setId("button-select");
@@ -231,6 +232,7 @@ public class Battleships_Main extends Application {
 									userAircraftCarrier.setLocation(n, o + 1);
 									userAircraftCarrier.setLocation(n, o + 2);
 									userAircraftCarrier.setLocation(n, o + 3);
+									userAircraftCarrier.setLocation(n, o + 4);
 									selectionButtons[n][o + 1].setId("button-select");
 									selectionButtons[n][o + 2].setId("button-select");
 									selectionButtons[n][o + 3].setId("button-select");
@@ -301,14 +303,12 @@ public class Battleships_Main extends Application {
 							int shootY = computerSelectionY();
 							computer.shoot(shootX, shootY);
 
-							/* TODO: Announce which boat has been sunk */
-
 							if ((userPatrolBoat.isHit(shootX, shootY) == true)
 									|| (userDestroyer.isHit(shootX, shootY) == true)
 									|| (userBattleship.isHit(shootX, shootY) == true)
 									|| (userAircraftCarrier.isHit(shootX, shootY) == true)) {
 								System.out.println("Computer hit you.");
-								selectionButtons[i][j].setId("button-hit");
+								selectionButtons[shootX][shootY].setId("button-hit");
 								user.loseLife();
 
 								if (user.livesRemaining() == 0) {
