@@ -29,9 +29,14 @@ public class Battleships_Main extends Application {
 	static Scanner scan;
 	private Label console = new Label("Here is where console output will go");
 
+	/* Computer AI variables */
 	private int compX;
 	private int compY;
-	private boolean valid;
+	private boolean previousHit;
+	private int saveX;
+	private int saveY;
+	private boolean horizontal;
+	private boolean vertical;
 
 	private boolean selection;
 	private boolean patrolBoatSelected;
@@ -323,14 +328,30 @@ public class Battleships_Main extends Application {
 						Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), delayEvent -> {
 
 							/* Computer's turn to shoot */
-							int shootX = computerSelectionX();
-							int shootY = computerSelectionY();
-							computer.shoot(shootX, shootY);
+
+							int shootX;
+							int shootY;
+
+							/* Strategic AI - If computer made previous hit, make next shot next to it */
+							if (previousHit == true) {
+								shootX = saveX + 1;
+								shootY = saveY;
+								computer.shoot(saveX, saveY);
+							} else {
+								shootX = computerSelectionX();
+								shootY = computerSelectionY();
+								computer.shoot(shootX, shootY);
+							}
+
+							previousHit = false;
 
 							if ((userPatrolBoat.isHit(shootX, shootY) == true)
 									|| (userDestroyer.isHit(shootX, shootY) == true)
 									|| (userBattleship.isHit(shootX, shootY) == true)
 									|| (userAircraftCarrier.isHit(shootX, shootY) == true)) {
+								previousHit = true;
+								saveX = shootX;
+								saveY = shootY;
 								System.out.println("Computer hit you.");
 								selectionButtons[shootX][shootY].setId("button-hit");
 								user.loseLife();
