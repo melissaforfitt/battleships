@@ -452,7 +452,7 @@ public class Battleships_Main extends Application {
 		makeSelection(gridSize);
 
 		/* Create scene */
-		Scene scene = new Scene(hbox, 50 * (gridSize * 2) + 250, 50 * (gridSize) + 100);
+		Scene scene = new Scene(hbox, 50 * (gridSize * 2) + 650, 50 * (gridSize) + 100);
 		scene.getStylesheets().add(this.getClass().getResource("Design.css").toExternalForm());
 		primaryStage.setTitle("Battleships");
 		primaryStage.setScene(scene);
