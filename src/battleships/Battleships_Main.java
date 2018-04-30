@@ -35,9 +35,7 @@ public class Battleships_Main extends Application {
 	private boolean previousHit;
 	private int saveX;
 	private int saveY;
-	private boolean horizontal;
-	private boolean vertical;
-	private boolean previousAIHit;
+	private boolean prevHorizontal;
 
 	private boolean selection;
 	private boolean patrolBoatSelected;
@@ -181,7 +179,7 @@ public class Battleships_Main extends Application {
 								compY = computerSelectionY();
 
 								/* Check that computer's selection is valid */
-								while (compX > 8) {
+								while (compX > 7) {
 									compX = computerSelectionX();
 								}
 
@@ -329,31 +327,26 @@ public class Battleships_Main extends Application {
 						Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), delayEvent -> {
 
 							/* Computer's turn to shoot */
-
 							int shootX;
 							int shootY;
-							previousAIHit = false;
 
-							/* Strategic AI - If computer made previous hit, make next shot next to it */
-
+							/* Strategic AI - If computer made previous hit, make next hit around it */
 							if (previousHit == true) {
-								if (previousAIHit == horizontal) {
+								if (prevHorizontal == true) {
 									shootX = saveX + 1;
 									shootY = saveY;
-									previousAIHit = horizontal;
-									computer.shoot(shootX, shootY);
-								}
-								if (previousAIHit == vertical) {
-									shootX = saveX;
-									shootY = saveY + 1;
-									previousAIHit = vertical;
 									computer.shoot(shootX, shootY);
 								} else {
 									shootX = saveX + 1;
 									shootY = saveY;
-									previousAIHit = horizontal;
+									prevHorizontal = true;
 									computer.shoot(shootX, shootY);
 								}
+							} else if (previousHit == false && prevHorizontal == true) {
+								shootX = saveX;
+								shootY = saveY + 1;
+								computer.shoot(shootX, shootY);
+								prevHorizontal = false;
 							} else {
 								shootX = computerSelectionX();
 								shootY = computerSelectionY();
@@ -374,7 +367,10 @@ public class Battleships_Main extends Application {
 								user.loseLife();
 
 							} else {
+
 								System.out.println("Computer missed.");
+								selectionButtons[shootX][shootY].setId("button-hit");
+
 							}
 
 						}));
@@ -434,6 +430,7 @@ public class Battleships_Main extends Application {
 
 		/* Create HBox and add 2 grids to it (one for selection, one for hits/misses) */
 		HBox hbox = new HBox();
+		hbox.getStyleClass().add("hbox");
 		Label selection = new Label("Selection Grid");
 		selection.setTranslateX(75);
 		selection.setTranslateY(520);

@@ -40,3 +40,17 @@
 	-fx-vgap: 16.0;
 
 }
+
+.hbox {
+	
+		-fx-background-color: #A9A9A9;
+		
+}
+
+.label {
+	
+	-fx-text-fill: white;
+	-fx-font-family: "Segoe UI Semibold";
+	-fx-font-size: 15.0pt;
+	
+}
