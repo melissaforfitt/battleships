@@ -287,13 +287,16 @@ public class Battleships_Main extends Application {
 							computer.loseLife();
 							hitButtons[i][j].setId("button-hit");
 
-							if (computer.livesRemaining() == 0) {
-								console.setText("Game is over. You won!");
-							}
-
 						} else {
 							console.setText("You missed.");
 							hitButtons[i][j].setId("button-miss");
+						}
+
+						System.out.println("Computer has " + computer.livesRemaining() + " lives remaining.");
+						if (computer.livesRemaining() == 0) {
+							System.out.println("User won.");
+							console.setText("Game is over. You won!");
+							System.exit(2); // When user winner is declared, terminate game.
 						}
 
 						Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), delayEvent -> {
@@ -311,12 +314,15 @@ public class Battleships_Main extends Application {
 								selectionButtons[shootX][shootY].setId("button-hit");
 								user.loseLife();
 
-								if (user.livesRemaining() == 0) {
-									console.setText("Game is over. Computer won!");
-								}
-
 							} else {
 								System.out.println("Computer missed.");
+							}
+
+							System.out.println("User has " + user.livesRemaining() + " lives remaining.");
+							if (user.livesRemaining() == 0) {
+								System.out.println("Computer won.");
+								console.setText("Game is over. Computer won!");
+								System.exit(2); // When computer winner is declared, terminate game.
 							}
 
 						}));
