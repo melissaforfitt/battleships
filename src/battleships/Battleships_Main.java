@@ -369,7 +369,6 @@ public class Battleships_Main extends Application {
 							} else {
 
 								System.out.println("Computer missed.");
-								selectionButtons[shootX][shootY].setId("button-hit");
 
 							}
 
