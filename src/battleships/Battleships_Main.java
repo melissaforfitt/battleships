@@ -37,6 +37,7 @@ public class Battleships_Main extends Application {
 	private int saveY;
 	private boolean horizontal;
 	private boolean vertical;
+	private boolean previousAIHit;
 
 	private boolean selection;
 	private boolean patrolBoatSelected;
@@ -331,12 +332,28 @@ public class Battleships_Main extends Application {
 
 							int shootX;
 							int shootY;
+							previousAIHit = false;
 
 							/* Strategic AI - If computer made previous hit, make next shot next to it */
+
 							if (previousHit == true) {
-								shootX = saveX + 1;
-								shootY = saveY;
-								computer.shoot(saveX, saveY);
+								if (previousAIHit == horizontal) {
+									shootX = saveX + 1;
+									shootY = saveY;
+									previousAIHit = horizontal;
+									computer.shoot(shootX, shootY);
+								}
+								if (previousAIHit == vertical) {
+									shootX = saveX;
+									shootY = saveY + 1;
+									previousAIHit = vertical;
+									computer.shoot(shootX, shootY);
+								} else {
+									shootX = saveX + 1;
+									shootY = saveY;
+									previousAIHit = horizontal;
+									computer.shoot(shootX, shootY);
+								}
 							} else {
 								shootX = computerSelectionX();
 								shootY = computerSelectionY();
