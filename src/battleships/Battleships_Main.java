@@ -31,6 +31,7 @@ public class Battleships_Main extends Application {
 
 	private int compX;
 	private int compY;
+	private boolean valid;
 
 	private boolean selection;
 	private boolean patrolBoatSelected;
@@ -120,7 +121,7 @@ public class Battleships_Main extends Application {
 							selectionButtons[n][o].setId("button-select");
 							patrolBoatSelected = true;
 							if (patrolBoatSelected == true) {
-								System.out.println("Vertical or Horizontal?");
+								System.out.println("Vertical or Horizontal? (Input V or H)");
 								String position = scan.next();
 								if (position.equals("H") || (position.equals("h"))) {
 									userPatrolBoat.setLocation(n + 1, o);
@@ -130,15 +131,23 @@ public class Battleships_Main extends Application {
 									selectionButtons[n][o + 1].setId("button-select");
 								}
 
-								// Computer's selection
+								/* Computer's selection */
 								compX = computerSelectionX();
 								compY = computerSelectionY();
+
+								/* Check that computer's selection is valid */
+								while (compY == 10) {
+									compY = computerSelectionY();
+								}
+
 								computerPatrolBoat.setLocation(compX, compY);
 								computerPatrolBoat.setLocation(compX, compY + 1);
 
-								console.setText("Destroyer Boat Setup:");
-								console.setText("Select location for destroyer boat.");
 							}
+
+							console.setText("Destroyer Boat Setup:");
+							console.setText("Select location for destroyer boat.");
+
 						}
 
 						if (selectionCounter == 1) {
@@ -147,7 +156,7 @@ public class Battleships_Main extends Application {
 							selectionButtons[n][o].setId("button-select");
 							destroyerBoatSelected = true;
 							if (destroyerBoatSelected == true) {
-								System.out.println("Vertical or Horizontal?");
+								System.out.println("Vertical or Horizontal? (Input V or H)");
 								String position = scan.next();
 								if (position.equals("H") || (position.equals("h"))) {
 									userDestroyer.setLocation(n + 1, o);
@@ -161,9 +170,15 @@ public class Battleships_Main extends Application {
 									selectionButtons[n][o + 2].setId("button-select");
 								}
 
-								// Computer's selection
+								/* Computer's selection */
 								compX = computerSelectionX();
 								compY = computerSelectionY();
+
+								/* Check that computer's selection is valid */
+								while (compX > 8) {
+									compX = computerSelectionX();
+								}
+
 								computerDestroyer.setLocation(compX, compY);
 								computerDestroyer.setLocation(compX + 1, compY);
 								computerDestroyer.setLocation(compX + 2, compY);
@@ -179,7 +194,7 @@ public class Battleships_Main extends Application {
 							selectionButtons[n][o].setId("button-select");
 							battleshipSelected = true;
 							if (battleshipSelected == true) {
-								System.out.println("Vertical or Horizontal?");
+								System.out.println("Vertical or Horizontal? (Input V or H)");
 								String position = scan.next();
 								if (position.equals("H") || (position.equals("h"))) {
 									userBattleship.setLocation(n + 1, o);
@@ -197,9 +212,15 @@ public class Battleships_Main extends Application {
 									selectionButtons[n][o + 3].setId("button-select");
 								}
 
-								// Computer's selection
+								/* Computer's selection */
 								compX = computerSelectionX();
 								compY = computerSelectionY();
+
+								/* Check that computer's selection is valid */
+								while (compY > 6) {
+									compY = computerSelectionY();
+								}
+
 								computerBattleship.setLocation(compX, compY);
 								computerBattleship.setLocation(compX, compY + 1);
 								computerBattleship.setLocation(compX, compY + 2);
@@ -217,7 +238,7 @@ public class Battleships_Main extends Application {
 							selectionButtons[n][o].setId("button-select");
 							aircraftCarrierSelected = true;
 							if (aircraftCarrierSelected == true) {
-								System.out.println("Vertical or Horizontal?");
+								System.out.println("Vertical or Horizontal? (Input V or H)");
 								String position = scan.next();
 								if (position.equals("H") || (position.equals("h"))) {
 									userAircraftCarrier.setLocation(n + 1, o);
@@ -239,9 +260,15 @@ public class Battleships_Main extends Application {
 									selectionButtons[n][o + 4].setId("button-select");
 								}
 
-								// Computer's selection
+								/* Computer's selection */
 								compX = computerSelectionX();
 								compY = computerSelectionY();
+
+								/* Check that computer's selection is valid */
+								while (compY > 5) {
+									compY = computerSelectionY();
+								}
+
 								computerAircraftCarrier.setLocation(compX, compY);
 								computerAircraftCarrier.setLocation(compX, compY + 1);
 								computerAircraftCarrier.setLocation(compX, compY + 2);
@@ -263,6 +290,7 @@ public class Battleships_Main extends Application {
 				});
 			}
 		}
+
 	}
 
 	public void gamePlay(int gridSize) {
@@ -319,7 +347,7 @@ public class Battleships_Main extends Application {
 						if (computer.livesRemaining() == 0) {
 							System.out.println("User won.");
 							console.setText("Game is over. You won!");
-							Timeline endGame = new Timeline(new KeyFrame(Duration.seconds(2), delayEvent -> {
+							Timeline endGame = new Timeline(new KeyFrame(Duration.seconds(1), delayEvent -> {
 								System.exit(2); // When user winner is declared, terminate game.
 							}));
 							endGame.play();
@@ -329,7 +357,7 @@ public class Battleships_Main extends Application {
 						if (user.livesRemaining() == 0) {
 							System.out.println("Computer won.");
 							console.setText("Game is over. Computer won!");
-							Timeline endGame = new Timeline(new KeyFrame(Duration.seconds(2), delayEvent -> {
+							Timeline endGame = new Timeline(new KeyFrame(Duration.seconds(1), delayEvent -> {
 								System.exit(2); // When user winner is declared, terminate game.
 							}));
 							endGame.play();
@@ -346,7 +374,7 @@ public class Battleships_Main extends Application {
 	public void start(Stage primaryStage) {
 
 		/* Allow user to choose grid size */
-		System.out.println("What size grid would you like?");
+		System.out.println("What size grid would you like? (Works best with 10)");
 		gridSize = scan.nextInt();
 		System.out.println("Welcome to Battleships!");
 		console.setText("Welcome to Battleships!");
